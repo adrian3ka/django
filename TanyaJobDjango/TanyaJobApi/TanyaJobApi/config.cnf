@@ -1,0 +1,5 @@
+[client]
+database = tanyajob_chat
+user = root
+password = jacksparrow1
+default-character-set = utf8
