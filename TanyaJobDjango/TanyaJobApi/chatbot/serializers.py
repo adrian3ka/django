@@ -4,9 +4,9 @@ from .models import UserAnswer, BotQuestion
 class UserAnswerSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = UserAnswer
-		fields = ('category', 'text',)
+		fields = ('id', 'category', 'text',)
 
 class BotQuestionSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = BotQuestion
-		fields = ('category', 'text',)
+		fields = ('id', 'category', 'text',)
