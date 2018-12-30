@@ -40,3 +40,7 @@ class BotQuestionViewSet(viewsets.ModelViewSet):
 @api_view(['POST'])
 def ExtractInformation(request):
     return Response({"message": "OKE"})
+
+@api_view(['POST'])
+def AskQuestion(request):
+    return Response({"message": "OKEYZ"})
