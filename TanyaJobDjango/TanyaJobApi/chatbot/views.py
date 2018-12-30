@@ -8,6 +8,8 @@ from django.shortcuts import render
 from rest_framework import viewsets
 from .models import UserAnswer, BotQuestion
 from .serializers import UserAnswerSerializer, BotQuestionSerializer
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
 
 class DefaultsMixin(object):
 	"""Default settings for view authentication, permissions,
@@ -34,3 +36,7 @@ class BotQuestionViewSet(viewsets.ModelViewSet):
 	"""API endpoint for listing and creating sprints."""
 	queryset = BotQuestion.objects.order_by('id')
 	serializer_class = BotQuestionSerializer
+
+@api_view(['POST'])
+def ExtractInformation(request):
+    return Response({"message": "OKE"})
