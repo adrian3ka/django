@@ -21,6 +21,7 @@ from chatbot.urls import router
 
 urlpatterns = [
     url(r'^api/v1/extract/information/$', views.ExtractInformation),
+    url(r'^api/v1/ask/question/$', views.AskQuestion),
     url(r'^api/token/', obtain_auth_token, name='api-token'),
     url(r'^api/', include(router.urls)),
 ]
