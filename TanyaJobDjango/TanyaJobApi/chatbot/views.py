@@ -10,6 +10,8 @@ from .models import UserAnswer, BotQuestion
 from .serializers import UserAnswerSerializer, BotQuestionSerializer
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+import json
+import random
 
 class DefaultsMixin(object):
 	"""Default settings for view authentication, permissions,
@@ -43,4 +45,8 @@ def ExtractInformation(request):
 
 @api_view(['POST'])
 def AskQuestion(request):
-    return Response({"message": "OKEYZ"})
+    body_unicode = request.body.decode('utf-8')
+    body = json.loads(body_unicode)
+    question = BotQuestion.objects.filter(category = body['category'])
+    randomNumber = random.randint(0, len(question) - 1)
+    return Response({"question": str(question[randomNumber])})
