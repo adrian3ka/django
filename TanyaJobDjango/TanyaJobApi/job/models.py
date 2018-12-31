@@ -14,7 +14,7 @@ class Job(models.Model):
     field = models.CharField(max_length=255, blank=True, default='')
     location = models.CharField(max_length=255, blank=True, default='')
     job_level = models.CharField(max_length=255, blank=True, default='')
-    work_exp = models.BigIntegerField(default=0, blank=True)
+    work_exp = models.FloatField(default=0, blank=True)
     min_salary = models.BigIntegerField(default=0, blank=True)
     max_salary = models.BigIntegerField(default=0, blank=True)
 

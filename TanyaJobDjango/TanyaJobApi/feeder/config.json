@@ -1,0 +1,9 @@
+{
+  "base_host" : "http://localhost:8000",
+  "tanyajob_db" : {
+    "host" :"103.236.201.20",
+    "user" : "skripsi_dev",
+    "passwd" : "tanyajob_dev",
+    "db" :"tanyajob"
+  }
+}
