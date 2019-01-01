@@ -18,7 +18,8 @@ from django.conf.urls import include,url
 from rest_framework import routers
 #from django.contrib import admin
 from rest_framework.authtoken.views import obtain_auth_token
-from chatbot import views
+from chatbot import views as chatbotViews
+from job import views as jobViews
 from chatbot.urls import router as routerChatbot
 from job.urls import router as routerJob
 
@@ -39,8 +40,9 @@ router.extend(routerChatbot)
 router.extend(routerJob)
 
 urlpatterns = [
-    url(r'^api/v1/extract/information/$', views.ExtractInformation),
-    url(r'^api/v1/ask/question/$', views.AskQuestion),
+    url(r'^api/v1/job/reccomendation/$', jobViews.GetJobRecommendation),
+    url(r'^api/v1/extract/information/$', chatbotViews.ExtractInformation),
+    url(r'^api/v1/ask/question/$', chatbotViews.AskQuestion),
     url(r'^api/token/', obtain_auth_token, name='api-token'),
     url(r'^api/', include(router.urls)),
 ]
