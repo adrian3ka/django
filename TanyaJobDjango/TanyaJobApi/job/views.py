@@ -21,7 +21,4 @@ def GetJobRecommendation(request):
     body_unicode = request.body.decode('utf-8')
     body = json.loads(body_unicode)
     data = model.decide(body)
-    print "---------------------------"
-    print data
-    print "---------------------------"
-    return Response({"message": data})
+    return Response({"job_title": data})
