@@ -36,6 +36,9 @@ class LevenshteinExtraction:
         input_text = input_text.strip()
         return token, input_text
     def extract(self, category, input_text):
+        if not self.dictionary:
+            self.fillDict()
+
         closer_to_dict = {}
         if category in self.dictionary:
             for dc in self.dictionary[category]:
@@ -53,6 +56,9 @@ class LevenshteinExtraction:
         else:
             return "Category Not Exist"
     def __init__(self):
+        print "LevenshteinExtraction Created"
+
+    def fillDict(self):
         for userAnswer in UserAnswer.objects.all():
             if userAnswer.category in self.dictionary:
                 self.dictionary[userAnswer.category].append(userAnswer.text)
