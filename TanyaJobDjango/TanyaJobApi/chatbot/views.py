@@ -12,6 +12,9 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 import json
 import random
+from .levenshtein import LevenshteinExtraction
+
+levenshtein = LevenshteinExtraction()
 
 class DefaultsMixin(object):
 	"""Default settings for view authentication, permissions,
@@ -41,7 +44,11 @@ class BotQuestionViewSet(viewsets.ModelViewSet):
 
 @api_view(['POST'])
 def ExtractInformation(request):
-    return Response({"message": "OKE"})
+    body_unicode = request.body.decode('utf-8')
+    body = json.loads(body_unicode)
+    print body
+    info = levenshtein.extract(body['category'], body['text'])
+    return Response({"message": info})
 
 @api_view(['POST'])
 def AskQuestion(request):
