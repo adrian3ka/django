@@ -25,7 +25,7 @@ class JobData:
     max_salary = 0
 
 class JobRecommendationDecisionTree:
-    decision_tree_classifier = sklearn.tree.tree.DecisionTreeClassifier()
+    decision_tree_classifier = None
     collection = sklearn.datasets.base.Bunch()
     clf = tree.DecisionTreeClassifier()
 
@@ -62,6 +62,8 @@ class JobRecommendationDecisionTree:
         graph.write_png("iris.png")
 
     def decide(self, input_data):
+        if self.decision_tree_classifier == None:
+            self.generateDecisionTree()
         list_value_input = [
             self.labelDegrees.transform([input_data["degree"]])[0],
             self.labelMajors.transform([input_data["major"]])[0],
@@ -80,6 +82,9 @@ class JobRecommendationDecisionTree:
         return self.decision_tree_classifier.predict(value_input.reshape(1, -1))
 
     def __init__(self) :
+         print "JobRecommendationDecisionTree Created"
+
+    def generateDecisionTree(self):
         jobs = Job.objects.all()
         listDegrees = []
         listMajors = []

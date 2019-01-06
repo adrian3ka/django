@@ -9,6 +9,8 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 import json
 
+model = JobRecommendationDecisionTree()
+
 # Create your views here.
 class JobViewSet(viewsets.ModelViewSet):
 	"""API endpoint for listing and creating sprints."""
@@ -17,7 +19,6 @@ class JobViewSet(viewsets.ModelViewSet):
 
 @api_view(['POST'])
 def GetJobRecommendation(request):
-    model = JobRecommendationDecisionTree()
     body_unicode = request.body.decode('utf-8')
     body = json.loads(body_unicode)
     data = model.decide(body)
