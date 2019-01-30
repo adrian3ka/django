@@ -122,6 +122,9 @@ payload = [
     '{"category": "Facility","text": "Apa saja fasilitas yang kamu butuhkan?"}',
     '{"category": "Facility","text": "Apa saja fasilitas yang kamu perlukan?"}',
     '{"category": "Facility","text": "Fasilitas apa saja yang kamu inginkan?"}',
+    '{"category": "Industry",	"text": "Sekarang kamu sedang bekerja di industri apa?"}',
+    '{"category": "Industry",	"text": "Sekarang kamu sedang bekerja di industri apa ya?"}',
+    '{"category": "Industry",	"text": "Sekarang kamu sedang bekerja di industri apa sih?"}',
 ]
 headers = {
     'Content-Type': "application/json",

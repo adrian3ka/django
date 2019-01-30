@@ -46,7 +46,6 @@ class BotQuestionViewSet(viewsets.ModelViewSet):
 def ExtractInformation(request):
     body_unicode = request.body.decode('utf-8')
     body = json.loads(body_unicode)
-    print body
     info = levenshtein.extract(body['category'], body['text'])
     return Response({"message": info})
 
