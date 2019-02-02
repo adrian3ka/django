@@ -122,6 +122,8 @@ payload = [
     '{"category": "WorkExp",	"text": "Belum"}',
     '{"category": "Industry",	"text": "Saya bekerja di industri {{x}}"}',
     '{"category": "Field",	"text": "Bidang pekerjaan saya {{x}}"}'
+    '{"category": "JobLevel",	"text": "Pangkat saya {{x}}"}',
+    '{"category": "SkillSet",	"text": "Skill saya {{x}}"}',
 ]
 headers = {
     'Content-Type': "application/json",
