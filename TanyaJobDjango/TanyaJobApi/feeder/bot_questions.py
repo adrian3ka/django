@@ -125,6 +125,13 @@ payload = [
     '{"category": "Industry",	"text": "Sekarang kamu sedang bekerja di industri apa?"}',
     '{"category": "Industry",	"text": "Sekarang kamu sedang bekerja di industri apa ya?"}',
     '{"category": "Industry",	"text": "Sekarang kamu sedang bekerja di industri apa sih?"}',
+    '{"category": "Field",	"text": "Bidang pekerjaan kamu apa ?"}',
+    '{"category": "Field",	"text": "Sekarang bidang pekerjaan kamu apa sih?"}',
+
+
+
+
+
 ]
 headers = {
     'Content-Type': "application/json",

@@ -121,6 +121,7 @@ payload = [
     '{"category": "WorkExp",	"text": "Ya"}',
     '{"category": "WorkExp",	"text": "Belum"}',
     '{"category": "Industry",	"text": "Saya bekerja di industri {{x}}"}',
+    '{"category": "field",	"text": "Bidang pekerjaan saya {{x}}"}'
 ]
 headers = {
     'Content-Type': "application/json",
