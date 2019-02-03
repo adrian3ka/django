@@ -90,6 +90,13 @@ def ExtractInformation(request):
     return Response({"message": info})
 
 @api_view(['POST'])
+def ExtractInformationV2(request):
+    body_unicode = request.body.decode('utf-8')
+    body = json.loads(body_unicode)
+    info = levenshtein.template_matching(body['category'], body['text'])
+    return Response({"message": info})
+
+@api_view(['POST'])
 def AskQuestion(request):
     body_unicode = request.body.decode('utf-8')
     body = json.loads(body_unicode)

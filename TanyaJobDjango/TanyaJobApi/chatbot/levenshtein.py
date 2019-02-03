@@ -1,9 +1,15 @@
-from .models import UserAnswer, BotQuestion
+from .models import UserAnswer, BotQuestion, MasterDegrees
 
 GENERAL_VALUE = "{{x}}"
 
 class LevenshteinExtraction:
     dictionary = {}
+    master_data = {}
+    MASTER_DEGREE = 'master_degree'
+    def template_matching(self, category, text):
+        self.fillMasterData()
+        print category, text
+        return "HAHAHA"
     def levenshtein_distance(self, a, b):
         """Return the Levenshtein edit distance between two strings *a* and *b*."""
         if a == b:
@@ -58,6 +64,14 @@ class LevenshteinExtraction:
     def __init__(self):
         print "LevenshteinExtraction Created"
 
+    def fillMasterData(self):
+        print "-----------------------------------------------------------"
+        for masterDegree in MasterDegrees.objects.all():
+            if self.MASTER_DEGREE in self.master_data:
+                self.master_data[self.MASTER_DEGREE].append(masterDegree.name)
+            else:
+                self.master_data[self.MASTER_DEGREE] = [masterDegree.name]
+        print self.master_data
     def fillDict(self):
         for userAnswer in UserAnswer.objects.all():
             if userAnswer.category in self.dictionary:

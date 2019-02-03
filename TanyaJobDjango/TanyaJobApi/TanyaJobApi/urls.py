@@ -42,6 +42,7 @@ router.extend(routerJob)
 urlpatterns = [
     url(r'^api/v1/job/reccomendation/$', jobViews.GetJobRecommendation),
     url(r'^api/v1/extract/information/$', chatbotViews.ExtractInformation),
+    url(r'^api/v2/extract/information/$', chatbotViews.ExtractInformationV2),
     url(r'^api/v1/ask/question/$', chatbotViews.AskQuestion),
     url(r'^api/token/', obtain_auth_token, name='api-token'),
     url(r'^api/', include(router.urls)),
