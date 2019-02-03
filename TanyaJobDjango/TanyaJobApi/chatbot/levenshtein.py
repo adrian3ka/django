@@ -5,7 +5,7 @@ GENERAL_VALUE = "{{x}}"
 class LevenshteinExtraction:
     dictionary = {}
     master_data = {}
-    MASTER_DEGREE = 'master_degree'
+    MASTER_DEGREES = 'master_degrees'
     MASTER_MAJORS = 'master_majors'
     MASTER_FACILITIES = 'master_facilities'
     MASTER_FIELDS = 'master_fields'
@@ -14,18 +14,29 @@ class LevenshteinExtraction:
     MASTER_LOCATIONS = 'master_locations'
     MASTER_SKILL_SETS = 'master_skill_sets'
 
-    MAJOR = "Major"
+    MAP_CATEGORY = {
+        "Degree" : MASTER_DEGREES,
+        "Major" : MASTER_MAJORS,
+        "Facilities" : MASTER_FACILITIES,
+        "Field" : MASTER_FIELDS,
+        "Industry": MASTER_INDUSTRIES,
+        "JobLevel" : MASTER_JOB_LEVELS,
+        "ExpectedLocation" : MASTER_LOCATIONS,
+        "SkillSet" : MASTER_SKILL_SETS,
+    }
     def template_matching(self, category, text):
         if not self.master_data:
             self.fillMasterData()
         selected_master_data = []
         extracted_data = ""
-        if category == self.MAJOR:
-            selected_master_data = self.master_data[self.MASTER_MAJORS]
+
+        if category in self.MAP_CATEGORY:
+            selected_master_data = self.master_data[self.MAP_CATEGORY[category]]
+        else:
+            return "Category Not Exists"
 
         for s in selected_master_data:
-            if s in text: 
-                print s
+            if s in text:
                 extracted_data = s
                 break
 
@@ -85,12 +96,11 @@ class LevenshteinExtraction:
         print "LevenshteinExtraction Created"
 
     def fillMasterData(self):
-        print "-----------------------------------------------------------"
         for masterDegree in MasterDegrees.objects.all():
-            if self.MASTER_DEGREE in self.master_data:
-                self.master_data[self.MASTER_DEGREE].append(masterDegree.name)
+            if self.MASTER_DEGREES in self.master_data:
+                self.master_data[self.MASTER_DEGREES].append(masterDegree.name)
             else:
-                self.master_data[self.MASTER_DEGREE] = [masterDegree.name]
+                self.master_data[self.MASTER_DEGREES] = [masterDegree.name]
         
         for masterMajors in MasterMajors.objects.all():
             if self.MASTER_MAJORS in self.master_data:
