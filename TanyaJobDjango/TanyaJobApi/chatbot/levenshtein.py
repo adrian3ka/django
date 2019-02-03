@@ -17,7 +17,7 @@ class LevenshteinExtraction:
     MAP_CATEGORY = {
         "Degree" : MASTER_DEGREES,
         "Major" : MASTER_MAJORS,
-        "Facilities" : MASTER_FACILITIES,
+        "Facility" : MASTER_FACILITIES,
         "Field" : MASTER_FIELDS,
         "Industry": MASTER_INDUSTRIES,
         "JobLevel" : MASTER_JOB_LEVELS,
