@@ -1,4 +1,4 @@
-from .models import UserAnswer, BotQuestion, MasterDegrees
+from .models import UserAnswer, BotQuestion, MasterDegrees, MasterMajors, MasterFacilities, MasterFields, MasterIndustries, MasterJobLevels, MasterLocations, MasterSkillSets
 
 GENERAL_VALUE = "{{x}}"
 
@@ -6,6 +6,13 @@ class LevenshteinExtraction:
     dictionary = {}
     master_data = {}
     MASTER_DEGREE = 'master_degree'
+    MASTER_MAJORS = 'master_majors'
+    MASTER_FACILITIES = 'master_facilities'
+    MASTER_FIELDS = 'master_fields'
+    MASTER_INDUSTRIES = 'master_industries'
+    MASTER_JOB_LEVELS = 'master_job_levels'
+    MASTER_LOCATIONS = 'master_locations'
+    MASTER_SKILL_SETS = 'master_skill_sets'
     def template_matching(self, category, text):
         self.fillMasterData()
         print category, text
@@ -71,7 +78,49 @@ class LevenshteinExtraction:
                 self.master_data[self.MASTER_DEGREE].append(masterDegree.name)
             else:
                 self.master_data[self.MASTER_DEGREE] = [masterDegree.name]
-        print self.master_data
+        
+        for masterMajors in MasterMajors.objects.all():
+            if self.MASTER_MAJORS in self.master_data:
+                self.master_data[self.MASTER_MAJORS].append(masterMajors.name)
+            else:
+                self.master_data[self.MASTER_MAJORS] = [masterMajors.name]
+        
+        for masterFacilities in MasterFacilities.objects.all():
+            if self.MASTER_FACILITIES in self.master_data:
+                self.master_data[self.MASTER_FACILITIES].append(masterFacilities.name)
+            else:
+                self.master_data[self.MASTER_FACILITIES] = [masterFacilities.name]
+        
+        for masterFields in MasterFields.objects.all():
+            if self.MASTER_FIELDS in self.master_data:
+                self.master_data[self.MASTER_FIELDS].append(masterFields.name)
+            else:
+                self.master_data[self.MASTER_FIELDS] = [masterFields.name]
+        
+        for masterIndustries in MasterIndustries.objects.all():
+            if self.MASTER_INDUSTRIES in self.master_data:
+                self.master_data[self.MASTER_INDUSTRIES].append(masterIndustries.name)
+            else:
+                self.master_data[self.MASTER_INDUSTRIES] = [masterIndustries.name]
+        
+        for masterJobLevels in MasterJobLevels.objects.all():
+            if self.MASTER_JOB_LEVELS in self.master_data:
+                self.master_data[self.MASTER_JOB_LEVELS].append(masterJobLevels.name)
+            else:
+                self.master_data[self.MASTER_JOB_LEVELS] = [masterJobLevels.name]
+        
+        for masterLocations in MasterLocations.objects.all():
+            if self.MASTER_LOCATIONS in self.master_data:
+                self.master_data[self.MASTER_LOCATIONS].append(masterLocations.name)
+            else:
+                self.master_data[self.MASTER_LOCATIONS] = [masterLocations.name]
+        
+        for masterSkillSets in MasterSkillSets.objects.all():
+            if self.MASTER_SKILL_SETS in self.master_data:
+                self.master_data[self.MASTER_SKILL_SETS].append(masterSkillSets.name)
+            else:
+                self.master_data[self.MASTER_SKILL_SETS] = [masterSkillSets.name]
+        
     def fillDict(self):
         for userAnswer in UserAnswer.objects.all():
             if userAnswer.category in self.dictionary:
