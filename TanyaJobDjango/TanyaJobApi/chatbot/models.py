@@ -4,35 +4,35 @@
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
-class MasterDegree(models.Model):
+class MasterDegrees(models.Model):
     id = models.BigAutoField(primary_key=True)
     name = models.CharField(max_length=100, blank=False, null=False, unique=True)
 
-class MasterFacility(models.Model):
+class MasterFacilities(models.Model):
     id = models.BigAutoField(primary_key=True)
     name = models.CharField(max_length=100, blank=False, null=False, unique=True)
 
-class MasterField(models.Model):
+class MasterFields(models.Model):
     id = models.BigAutoField(primary_key=True)
     name = models.CharField(max_length=100, blank=False, null=False, unique=True)
 
-class MasterIndustry(models.Model):
+class MasterIndustries(models.Model):
     id = models.BigAutoField(primary_key=True)
     name = models.CharField(max_length=100, blank=False, null=False, unique=True)
 
-class MasterJobLevel(models.Model):
+class MasterJobLevels(models.Model):
     id = models.BigAutoField(primary_key=True)
     name = models.CharField(max_length=100, blank=False, null=False, unique=True)
 
-class MasterLocation(models.Model):
+class MasterLocations(models.Model):
     id = models.BigAutoField(primary_key=True)
     name = models.CharField(max_length=100, blank=False, null=False, unique=True)
 
-class MasterMajor(models.Model):
+class MasterMajors(models.Model):
     id = models.BigAutoField(primary_key=True)
     name = models.CharField(max_length=100, blank=False, null=False, unique=True)
 
-class MasterSkillSet(models.Model):
+class MasterSkillSets(models.Model):
     id = models.BigAutoField(primary_key=True)
     name = models.CharField(max_length=100, blank=False, null=False, unique=True)
 

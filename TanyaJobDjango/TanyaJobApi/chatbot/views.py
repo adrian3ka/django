@@ -6,8 +6,8 @@ from django.shortcuts import render
 # Create your views here.
 
 from rest_framework import viewsets
-from .models import UserAnswer, BotQuestion
-from .serializers import UserAnswerSerializer, BotQuestionSerializer
+from .models import UserAnswer, BotQuestion, MasterDegrees, MasterFacilities, MasterFields, MasterIndustries, MasterJobLevels, MasterLocations, MasterMajors
+from .serializers import UserAnswerSerializer, BotQuestionSerializer, MasterDegreesSerializer, MasterFacilitiesSerializer, MasterFieldsSerializer, MasterIndustriesSerializer, MasterJobLevelsSerializer, MasterLocationsSerializer, MasterMajorsSerializer
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 import json
@@ -41,6 +41,41 @@ class BotQuestionViewSet(viewsets.ModelViewSet):
 	"""API endpoint for listing and creating sprints."""
 	queryset = BotQuestion.objects.order_by('id')
 	serializer_class = BotQuestionSerializer
+
+class MasterDegreesViewSet(viewsets.ModelViewSet):
+	"""API endpoint for listing and creating sprints."""
+	queryset = MasterDegrees.objects.order_by('id')
+	serializer_class = MasterDegreesSerializer
+
+class MasterFacilitiesViewSet(viewsets.ModelViewSet):
+	"""API endpoint for listing and creating sprints."""
+	queryset = MasterFacilities.objects.order_by('id')
+	serializer_class = MasterFacilitiesSerializer
+
+class MasterFieldsViewSet(viewsets.ModelViewSet):
+	"""API endpoint for listing and creating sprints."""
+	queryset = MasterFields.objects.order_by('id')
+	serializer_class = MasterFieldsSerializer
+
+class MasterIndustriesViewSet(viewsets.ModelViewSet):
+	"""API endpoint for listing and creating sprints."""
+	queryset = MasterIndustries.objects.order_by('id')
+	serializer_class = MasterIndustriesSerializer
+
+class MasterJobLevelsViewSet(viewsets.ModelViewSet):
+	"""API endpoint for listing and creating sprints."""
+	queryset = MasterJobLevels.objects.order_by('id')
+	serializer_class = MasterJobLevelsSerializer
+
+class MasterLocationsViewSet(viewsets.ModelViewSet):
+	"""API endpoint for listing and creating sprints."""
+	queryset = MasterLocations.objects.order_by('id')
+	serializer_class = MasterLocationsSerializer
+
+class MasterMajorsViewSet(viewsets.ModelViewSet):
+	"""API endpoint for listing and creating sprints."""
+	queryset = MasterMajors.objects.order_by('id')
+	serializer_class = MasterMajorsSerializer
 
 @api_view(['POST'])
 def ExtractInformation(request):
