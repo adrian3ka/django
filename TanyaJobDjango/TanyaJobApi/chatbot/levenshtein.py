@@ -13,10 +13,23 @@ class LevenshteinExtraction:
     MASTER_JOB_LEVELS = 'master_job_levels'
     MASTER_LOCATIONS = 'master_locations'
     MASTER_SKILL_SETS = 'master_skill_sets'
+
+    MAJOR = "Major"
     def template_matching(self, category, text):
-        self.fillMasterData()
-        print category, text
-        return "HAHAHA"
+        if not self.master_data:
+            self.fillMasterData()
+        selected_master_data = []
+        extracted_data = ""
+        if category == self.MAJOR:
+            selected_master_data = self.master_data[self.MASTER_MAJORS]
+
+        for s in selected_master_data:
+            if s in text: 
+                print s
+                extracted_data = s
+                break
+
+        return extracted_data
     def levenshtein_distance(self, a, b):
         """Return the Levenshtein edit distance between two strings *a* and *b*."""
         if a == b:
