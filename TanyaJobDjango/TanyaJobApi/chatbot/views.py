@@ -6,8 +6,8 @@ from django.shortcuts import render
 # Create your views here.
 
 from rest_framework import viewsets
-from .models import UserAnswer, BotQuestion, MasterDegrees, MasterFacilities, MasterFields, MasterIndustries, MasterJobLevels, MasterLocations, MasterMajors
-from .serializers import UserAnswerSerializer, BotQuestionSerializer, MasterDegreesSerializer, MasterFacilitiesSerializer, MasterFieldsSerializer, MasterIndustriesSerializer, MasterJobLevelsSerializer, MasterLocationsSerializer, MasterMajorsSerializer
+from .models import UserAnswer, BotQuestion, MasterDegrees, MasterFacilities, MasterFields, MasterIndustries, MasterJobLevels, MasterLocations, MasterMajors, MasterSkillSets
+from .serializers import UserAnswerSerializer, BotQuestionSerializer, MasterDegreesSerializer, MasterFacilitiesSerializer, MasterFieldsSerializer, MasterIndustriesSerializer, MasterJobLevelsSerializer, MasterLocationsSerializer, MasterMajorsSerializer, MasterSkillSetsSerializer
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 import json
@@ -76,6 +76,11 @@ class MasterMajorsViewSet(viewsets.ModelViewSet):
 	"""API endpoint for listing and creating sprints."""
 	queryset = MasterMajors.objects.order_by('id')
 	serializer_class = MasterMajorsSerializer
+
+class MasterSkillSetsViewSet(viewsets.ModelViewSet):
+	"""API endpoint for listing and creating sprints."""
+	queryset = MasterSkillSets.objects.order_by('id')
+	serializer_class = MasterSkillSetsSerializer
 
 @api_view(['POST'])
 def ExtractInformation(request):

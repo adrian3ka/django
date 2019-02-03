@@ -1,5 +1,7 @@
 from rest_framework import serializers
-from .models import UserAnswer, BotQuestion, MasterDegrees, MasterFacilities, MasterFields, MasterIndustries, MasterJobLevels, MasterLocations, MasterMajors
+from .models import UserAnswer, BotQuestion, MasterDegrees, MasterFacilities, MasterFields, MasterIndustries, MasterJobLevels, MasterLocations, MasterMajors, MasterSkillSets
+
+
 
 class UserAnswerSerializer(serializers.ModelSerializer):
 	class Meta:
@@ -80,6 +82,18 @@ class MasterLocationsSerializer(serializers.ModelSerializer):
 class MasterMajorsSerializer(serializers.ModelSerializer):
     class Meta:
         model = MasterMajors
+        fields = ('id', 'name')
+
+    def get_links(self, obj):
+        request = self.context['request']
+        return {
+            'self': reverse('maste-majors-detail', kwargs={'pk': obj.pk}, request=request),
+        }
+
+
+class MasterSkillSetsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = MasterSkillSets
         fields = ('id', 'name')
 
     def get_links(self, obj):

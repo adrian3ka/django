@@ -16,7 +16,7 @@ db = MySQLdb.connect(host=config["tanyajob_db"]["host"],
                      db=config["tanyajob_db"]["db"]) 
 
 
-master_list = ["degrees", "facilities", "fields", "industries", "job_levels", "locations", "majors"]
+master_list = ["degrees", "facilities", "fields", "industries", "job_levels", "locations", "majors", "skill_sets"]
 
 for mstr in master_list:
 	cur = db.cursor(MySQLdb.cursors.DictCursor)
