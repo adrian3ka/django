@@ -102,6 +102,6 @@ def AskQuestion(request):
     body = json.loads(body_unicode)
     question = BotQuestion.objects.filter(category = body['category'])
     if len(question) == 0:
-         return Response({"question": "Category Still Empty"})
+         return Response({"question": body['category'] + " Category Still Empty" })
     randomNumber = random.randint(0, len(question) - 1)
     return Response({"question": str(question[randomNumber])})
