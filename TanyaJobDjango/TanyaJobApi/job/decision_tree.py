@@ -64,6 +64,10 @@ class JobRecommendationDecisionTree:
     def decide(self, input_data):
         if self.decision_tree_classifier == None:
             self.generateDecisionTree()
+
+	if input_data["location"] not in list(self.labelLocations.classes_):
+            return "Location Not in Recommendation List"
+
         list_value_input = [
             self.labelDegrees.transform([input_data["degree"]])[0],
             self.labelMajors.transform([input_data["major"]])[0],
@@ -112,14 +116,8 @@ class JobRecommendationDecisionTree:
                          jobs[i].min_age, jobs[i].max_age, encodedFields[i], encodedLocations[i],
                          encodedJobLevels[i], jobs[i].work_exp, jobs[i].min_salary, jobs[i].max_salary]
 
-            listDegrees.append(job.degree)
-            listMajors.append(job.major)
-            listIndustries.append(job.industry)
-            listFields.append(job.field)
-            listLocations.append(job.location)
-            listJobLevels.append(job.job_level)
-
             temp_target = str(jobs[i].title)
+
             self.jobDatas.append(temp_data)
             self.targetDatas.append(temp_target)
 
