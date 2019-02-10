@@ -1,5 +1,5 @@
 from .models import UserAnswer, BotQuestion, MasterDegrees, MasterMajors, MasterFacilities, MasterFields, MasterIndustries, MasterJobLevels, MasterLocations, MasterSkillSets
-
+import re
 GENERAL_VALUE = "{{x}}"
 
 class LevenshteinExtraction:
@@ -23,15 +23,22 @@ class LevenshteinExtraction:
         "JobLevel" : MASTER_JOB_LEVELS,
         "ExpectedLocation" : MASTER_LOCATIONS,
         "SkillSet" : MASTER_SKILL_SETS,
+        
     }
+    NUMERIC_MAP_CATEGORY = [
+    		"Age" ,
+		"SalaryUpper" ,
+		"SalaryLower" 
+    ]
     def template_matching(self, category, text):
         if not self.master_data:
             self.fillMasterData()
         selected_master_data = []
         extracted_data = ""
-
         if category in self.MAP_CATEGORY:
             selected_master_data = self.master_data[self.MAP_CATEGORY[category]]
+        if category in self.NUMERIC_MAP_CATEGORY:
+	    extracted_data= int (re.search(r'\d+', text).group())
         else:
             return "Category Not Exists"
 
@@ -75,7 +82,7 @@ class LevenshteinExtraction:
     def extract(self, category, input_text):
         if not self.dictionary:
             self.fillDict()
-
+		
         closer_to_dict = {}
         if category in self.dictionary:
             for dc in self.dictionary[category]:
