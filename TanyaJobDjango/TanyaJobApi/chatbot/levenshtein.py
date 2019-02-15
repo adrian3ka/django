@@ -23,7 +23,6 @@ class LevenshteinExtraction:
         "JobLevel" : MASTER_JOB_LEVELS,
         "ExpectedLocation" : MASTER_LOCATIONS,
         "SkillSet" : MASTER_SKILL_SETS,
-        
     }
     NUMERIC_MAP_CATEGORY = [
     		"Age" ,
@@ -35,9 +34,10 @@ class LevenshteinExtraction:
             self.fillMasterData()
         selected_master_data = []
         extracted_data = ""
+        print self.MAP_CATEGORY
         if category in self.MAP_CATEGORY:
             selected_master_data = self.master_data[self.MAP_CATEGORY[category]]
-        if category in self.NUMERIC_MAP_CATEGORY:
+        elif category in self.NUMERIC_MAP_CATEGORY:
 	    extracted_data= int (re.search(r'\d+', text).group())
         else:
             return "Category Not Exists"
