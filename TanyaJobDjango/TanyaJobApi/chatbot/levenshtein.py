@@ -34,7 +34,6 @@ class LevenshteinExtraction:
             self.fillMasterData()
         selected_master_data = []
         extracted_data = ""
-        print self.MAP_CATEGORY
         if category in self.MAP_CATEGORY:
             selected_master_data = self.master_data[self.MAP_CATEGORY[category]]
         elif category in self.NUMERIC_MAP_CATEGORY:
