@@ -16,6 +16,12 @@ class LevenshteinExtraction:
     MASTER_LOCATIONS = 'master_locations'
     MASTER_SKILL_SETS = 'master_skill_sets'
 
+    MASTER_LIST = [
+        MASTER_DEGREES, MASTER_MAJORS, MASTER_FACILITIES, MASTER_FIELDS,
+        MASTER_INDUSTRIES, MASTER_INDUSTRIES, MASTER_JOB_LEVELS,
+        MASTER_LOCATIONS, MASTER_SKILL_SETS
+    ]
+
     MAP_CATEGORY = {
         "Degree": MASTER_DEGREES,
         "Major": MASTER_MAJORS,
@@ -54,7 +60,7 @@ class LevenshteinExtraction:
         candidate_contain_extracted_data = []
         candidate_levensthein_extracted_data = []
         for s in selected_master_data:
-            if s in wordList:
+            if s in text:
                 candidate_contain_extracted_data = []  # Null it If Exact Match
                 candidate_levensthein_extracted_data = [
                 ]  # Null it If Exact Match
@@ -211,6 +217,10 @@ class LevenshteinExtraction:
                 self.master_data[self.MASTER_SKILL_SETS] = [
                     masterSkillSets.name.lower()
                 ]
+
+        for master in self.MASTER_LIST:
+            self.master_data[master].sort(key=len)
+            self.master_data[master].reverse()
 
     def fillDict(self):
         for userAnswer in UserAnswer.objects.all():
