@@ -9,23 +9,34 @@ class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
             name='BotQuestion',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('category', models.CharField(blank=True, default=b'', max_length=255)),
+                ('id',
+                 models.AutoField(
+                     auto_created=True,
+                     primary_key=True,
+                     serialize=False,
+                     verbose_name='ID')),
+                ('category',
+                 models.CharField(blank=True, default=b'', max_length=255)),
                 ('text', models.CharField(default=b'', max_length=255)),
             ],
         ),
         migrations.CreateModel(
             name='UserAnswer',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('category', models.CharField(blank=True, default=b'', max_length=255)),
+                ('id',
+                 models.AutoField(
+                     auto_created=True,
+                     primary_key=True,
+                     serialize=False,
+                     verbose_name='ID')),
+                ('category',
+                 models.CharField(blank=True, default=b'', max_length=255)),
                 ('text', models.CharField(default=b'', max_length=255)),
             ],
         ),

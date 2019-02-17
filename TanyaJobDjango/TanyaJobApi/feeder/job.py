@@ -2,10 +2,8 @@ import requests
 import json
 import MySQLdb
 
-
 with open('config.json') as data_file:
     config = json.load(data_file)
-
 
 url = config["base_host"] + "/api/job/"
 
@@ -15,7 +13,11 @@ headers = {
     'Postman-Token': "612ff27d-b3e1-42c3-8e89-063b016882e4"
 }
 
-db = MySQLdb.connect(host=config["tanyajob_db"]["host"], user=config["tanyajob_db"]["user"], passwd=config["tanyajob_db"]["passwd"], db=config["tanyajob_db"]["db"]) 
+db = MySQLdb.connect(
+    host=config["tanyajob_db"]["host"],
+    user=config["tanyajob_db"]["user"],
+    passwd=config["tanyajob_db"]["passwd"],
+    db=config["tanyajob_db"]["db"])
 
 cur = db.cursor(MySQLdb.cursors.DictCursor)
 
