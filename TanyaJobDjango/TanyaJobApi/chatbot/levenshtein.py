@@ -3,6 +3,7 @@ import re, copy
 GENERAL_VALUE = "{{x}}"
 LEVENSTHEIN_MAX_DISTANCE = 2
 
+
 class LevenshteinExtraction:
     dictionary = {}
     master_data = {}
@@ -41,9 +42,8 @@ class LevenshteinExtraction:
         else:
             return "Category Not Exists"
 
-
         items = text.split()
-        wordList =[]
+        wordList = []
         for i in range(len(items)):
             temp_outer = []
             for j in range(i, len(items)):
@@ -51,13 +51,13 @@ class LevenshteinExtraction:
                 temp = copy.copy(temp_outer)
                 wordList.append((' ').join(temp))
 
-        flag = 0
+        candidate_contain_extracted_data = []
         candidate_levensthein_extracted_data = []
         for s in selected_master_data:
             if s in wordList:
                 flag = 0
-		extracted_data = s
-                break     
+                extracted_data = s
+                break
             for word in wordList:
                 if word not in candidate_levensthein_extracted_data:
                     distance = self.levenshtein_distance(word, s)
@@ -65,14 +65,16 @@ class LevenshteinExtraction:
                         candidate_levensthein_extracted_data.append(s)
             for a in items:
                 if (a in s):
-                    flag += 1
-                    extracted_data = s
+                    if s not in candidate_contain_extracted_data:
+                        candidate_contain_extracted_data.append(s)
 
-        if (flag > 1):
+        if len(candidate_contain_extracted_data) > 1:
             if (len(candidate_levensthein_extracted_data) == 1):
                 extracted_data = candidate_levensthein_extracted_data[0]
-            else :
-                extracted_data = ""            
+            else:
+                extracted_data = ""
+        elif len(candidate_contain_extracted_data) == 1:
+            extracted_data = candidate_contain_extracted_data[0]
 
         return extracted_data
 
