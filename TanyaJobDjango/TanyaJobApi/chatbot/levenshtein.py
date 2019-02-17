@@ -44,9 +44,9 @@ class LevenshteinExtraction:
 
         flag = 0
         for s in selected_master_data:
-
             if s in text:
                 extracted_data = s
+                flag = 0
                 break
             lenn = re.sub("[^\w]", " ", s).split()
             if (lenn > 1):
