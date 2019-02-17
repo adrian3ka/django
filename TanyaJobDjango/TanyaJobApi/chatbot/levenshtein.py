@@ -55,6 +55,7 @@ class LevenshteinExtraction:
         candidate_levensthein_extracted_data = []
         for s in selected_master_data:
             if s in wordList:
+                flag = 0
 		extracted_data = s
                 break     
             for word in wordList:
