@@ -1,7 +1,7 @@
 from .models import UserAnswer, BotQuestion, MasterDegrees, MasterMajors, MasterFacilities, MasterFields, MasterIndustries, MasterJobLevels, MasterLocations, MasterSkillSets
-import re
+import re, copy
 GENERAL_VALUE = "{{x}}"
-
+LEVENSTHEIN_MAX_DISTANCE = 2
 
 class LevenshteinExtraction:
     dictionary = {}
@@ -40,20 +40,38 @@ class LevenshteinExtraction:
         else:
             return "Category Not Exists"
 
-        flag = 0
-        for s in selected_master_data:
 
-            if s in text:
-                extracted_data = s
-                break
-            lenn = re.sub("[^\w]", " ", s).split()
-            if (lenn > 1):
-                for a in lenn:
-                    if (a in text):
-                        flag += 1
-                        extracted_data = s
+        items = text.split()
+        wordList =[]
+        for i in range(len(items)):
+            temp_outer = []
+            for j in range(i, len(items)):
+                temp_outer.append(items[j])
+                temp = copy.copy(temp_outer)
+                wordList.append((' ').join(temp))
+
+        flag = 0
+        candidate_levensthein_extracted_data = []
+        for s in selected_master_data:
+            if s in wordList:
+		extracted_data = s
+                break     
+            for word in wordList:
+                print word, "|", s
+                if word not in candidate_levensthein_extracted_data:
+                    distance = self.levenshtein_distance(word, s)
+                    if distance <= LEVENSTHEIN_MAX_DISTANCE:
+                        candidate_levensthein_extracted_data.append(s)
+            for a in items:
+                if (a in s):
+                    flag += 1
+                    extracted_data = s
+
         if (flag > 1):
-            extracted_data = ""
+            if (len(candidate_levensthein_extracted_data) == 1):
+                extracted_data = candidate_levensthein_extracted_data[0]
+            else :
+                extracted_data = ""            
 
         return extracted_data
 
