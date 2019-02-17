@@ -11,11 +11,13 @@ import json
 
 model = JobRecommendationDecisionTree()
 
+
 # Create your views here.
 class JobViewSet(viewsets.ModelViewSet):
-	"""API endpoint for listing and creating sprints."""
-	queryset = Job.objects.order_by('id')
-	serializer_class = JobSerializer
+    """API endpoint for listing and creating sprints."""
+    queryset = Job.objects.order_by('id')
+    serializer_class = JobSerializer
+
 
 @api_view(['POST'])
 def GetJobRecommendation(request):

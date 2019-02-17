@@ -15,22 +15,23 @@ class JobData:
     degree = ''
     major = ''
     industry = ''
-    min_age = 0 
+    min_age = 0
     max_age = 0
     field = ''
     location = ''
-    job_level = '' 
+    job_level = ''
     work_exp = 0.0
     min_salary = 0
     max_salary = 0
+
 
 class JobRecommendationDecisionTree:
     decision_tree_classifier = None
     collection = sklearn.datasets.base.Bunch()
     clf = tree.DecisionTreeClassifier()
 
-    jobDatas = [] # other from title
-    targetDatas = [] # title
+    jobDatas = []  # other from title
+    targetDatas = []  # title
     # Label Encoder
     labelDegrees = sklearn.preprocessing.LabelEncoder()
     labelMajors = sklearn.preprocessing.LabelEncoder()
@@ -39,7 +40,7 @@ class JobRecommendationDecisionTree:
     labelLocations = sklearn.preprocessing.LabelEncoder()
     labelJobLevels = sklearn.preprocessing.LabelEncoder()
 
-    def train_model(self,max=999999):
+    def train_model(self, max=999999):
         self.clf = tree.DecisionTreeClassifier(max_depth=max)
         self.clf = self.clf.fit(self.collection.data, self.collection.target)
         return self.clf
@@ -51,10 +52,13 @@ class JobRecommendationDecisionTree:
         return encodedData
 
     def display_image(self):
-        dot_data = tree.export_graphviz(self.decision_tree_classifier, out_file=None,
-                                        feature_names=self.collection.feature_names,
-                                        class_names=self.collection.target_names,
-                                        filled=True, rounded=True)
+        dot_data = tree.export_graphviz(
+            self.decision_tree_classifier,
+            out_file=None,
+            feature_names=self.collection.feature_names,
+            class_names=self.collection.target_names,
+            filled=True,
+            rounded=True)
 
         graph = pydotplus.graph_from_dot_data(dot_data)
         display(Image(data=graph.create_png()))
@@ -65,37 +69,36 @@ class JobRecommendationDecisionTree:
         if self.decision_tree_classifier == None:
             self.generateDecisionTree()
 
-	if input_data["location"] not in list(self.labelLocations.classes_):
+        if input_data["location"] not in list(self.labelLocations.classes_):
             return "Location Not in Recommendation List"
-	if input_data["degree"] not in list(self.labelDegrees.classes_):
+        if input_data["degree"] not in list(self.labelDegrees.classes_):
             return "Degree Not in Recommendation List"
-	if input_data["major"] not in list(self.labelMajors.classes_):
+        if input_data["major"] not in list(self.labelMajors.classes_):
             return "Major Not in Recommendation List"
-	if input_data["industry"] not in list(self.labelIndustries.classes_):
+        if input_data["industry"] not in list(self.labelIndustries.classes_):
             return "Industry Not in Recommendation List"
-	if input_data["field"] not in list(self.labelFields.classes_):
+        if input_data["field"] not in list(self.labelFields.classes_):
             return "Field Not in Recommendation List"
-	if input_data["job_level"] not in list(self.labelJobLevels.classes_):
+        if input_data["job_level"] not in list(self.labelJobLevels.classes_):
             return "Job Level in Recommendation List"
         list_value_input = [
             self.labelDegrees.transform([input_data["degree"]])[0],
             self.labelMajors.transform([input_data["major"]])[0],
             self.labelIndustries.transform([input_data["industry"]])[0],
-            input_data["min_age"],
-            input_data["max_age"],
+            input_data["min_age"], input_data["max_age"],
             self.labelFields.transform([input_data["field"]])[0],
             self.labelLocations.transform([input_data["location"]])[0],
-            self.labelJobLevels.transform([input_data["job_level"]])[0],
-            input_data["work_exp"],
-            input_data["min_salary"],
-            input_data["max_salary"]
+            self.labelJobLevels.transform(
+                [input_data["job_level"]])[0], input_data["work_exp"],
+            input_data["min_salary"], input_data["max_salary"]
         ]
 
         value_input = np.array(list_value_input)
-        return self.decision_tree_classifier.predict(value_input.reshape(1, -1))
+        return self.decision_tree_classifier.predict(
+            value_input.reshape(1, -1))
 
-    def __init__(self) :
-         print "JobRecommendationDecisionTree Created"
+    def __init__(self):
+        print "JobRecommendationDecisionTree Created"
 
     def generateDecisionTree(self):
         jobs = Job.objects.all()
@@ -115,15 +118,19 @@ class JobRecommendationDecisionTree:
 
         encodedDegrees = self.encodeDatas(self.labelDegrees, listDegrees)
         encodedMajors = self.encodeDatas(self.labelMajors, listMajors)
-        encodedIndustries = self.encodeDatas(self.labelIndustries, listIndustries)
+        encodedIndustries = self.encodeDatas(self.labelIndustries,
+                                             listIndustries)
         encodedFields = self.encodeDatas(self.labelFields, listFields)
         encodedLocations = self.encodeDatas(self.labelLocations, listLocations)
         encodedJobLevels = self.encodeDatas(self.labelJobLevels, listJobLevels)
 
         for i in range(0, len(jobs) - 1):
-            temp_data = [encodedDegrees[i], encodedMajors[i], encodedIndustries[i], 
-                         jobs[i].min_age, jobs[i].max_age, encodedFields[i], encodedLocations[i],
-                         encodedJobLevels[i], jobs[i].work_exp, jobs[i].min_salary, jobs[i].max_salary]
+            temp_data = [
+                encodedDegrees[i], encodedMajors[i], encodedIndustries[i],
+                jobs[i].min_age, jobs[i].max_age, encodedFields[i],
+                encodedLocations[i], encodedJobLevels[i], jobs[i].work_exp,
+                jobs[i].min_salary, jobs[i].max_salary
+            ]
 
             temp_target = str(jobs[i].title)
 
@@ -131,10 +138,14 @@ class JobRecommendationDecisionTree:
             self.targetDatas.append(temp_target)
 
         self.collection = sklearn.datasets.base.Bunch(
-            data=np.array(self.jobDatas), 
+            data=np.array(self.jobDatas),
             target=np.array(self.targetDatas),
-            feature_names=["Last Degree", "Major", "Industry","Min Age", "Max Age","Fields","Locations","Job Levels","Work Exp", "Min Salary", "Max Salary"], 
+            feature_names=[
+                "Last Degree", "Major", "Industry", "Min Age", "Max Age",
+                "Fields", "Locations", "Job Levels", "Work Exp", "Min Salary",
+                "Max Salary"
+            ],
             target_names=self.targetDatas)
-        
+
         self.decision_tree_classifier = self.train_model()
         self.display_image()

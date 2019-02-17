@@ -104,7 +104,6 @@ headers = {
     'Postman-Token': "9ad5e836-84cb-401e-9021-bc28552d4964"
 }
 
-
 for p in payload:
     print p
     response = requests.request("POST", url, data=p, headers=headers)

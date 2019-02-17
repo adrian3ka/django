@@ -14,7 +14,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
 
-from django.conf.urls import include,url
+from django.conf.urls import include, url
 from rest_framework import routers
 #from django.contrib import admin
 from rest_framework.authtoken.views import obtain_auth_token
@@ -23,10 +23,12 @@ from job import views as jobViews
 from chatbot.urls import router as routerChatbot
 from job.urls import router as routerJob
 
+
 class DefaultRouter(routers.DefaultRouter):
     """
     Extends `DefaultRouter` class to add a method for extending url routes from another router.
     """
+
     def extend(self, router):
         """
         Extend the routes with url routes of the passed in router.
@@ -35,6 +37,8 @@ class DefaultRouter(routers.DefaultRouter):
              router: SimpleRouter instance containing route definitions.
         """
         self.registry.extend(router.registry)
+
+
 router = DefaultRouter()
 router.extend(routerChatbot)
 router.extend(routerJob)
