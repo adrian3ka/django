@@ -40,12 +40,23 @@ class LevenshteinExtraction:
 	    extracted_data= int (re.search(r'\d+', text).group())
         else:
             return "Category Not Exists"
-
+        
+        flag=0
         for s in selected_master_data:
+			
             if s in text:
                 extracted_data = s
                 break
-
+            lenn= re.sub("[^\w]", " ", s).split()
+            if (lenn>1):
+				for a in lenn:
+					if (a in text):
+					   flag+=1
+					   extracted_data = s
+        if (flag>1):
+			extracted_data=""
+				
+					   
         return extracted_data
     def levenshtein_distance(self, a, b):
         """Return the Levenshtein edit distance between two strings *a* and *b*."""
