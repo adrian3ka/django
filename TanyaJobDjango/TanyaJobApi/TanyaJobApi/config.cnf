@@ -1,5 +1,6 @@
 [client]
+host = 103.236.201.20
 database = tanyajob_chat
-user = root
-password = jacksparrow1
+user = skripsi_dev
+password = tanyajob_dev
 default-character-set = utf8
