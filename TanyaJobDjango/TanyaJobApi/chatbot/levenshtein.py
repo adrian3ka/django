@@ -28,6 +28,7 @@ class LevenshteinExtraction:
     NUMERIC_MAP_CATEGORY = ["Age", "SalaryUpper", "SalaryLower"]
 
     def template_matching(self, category, text):
+        text = text.lower()
         if not self.master_data:
             self.fillMasterData()
         selected_master_data = []
@@ -57,7 +58,6 @@ class LevenshteinExtraction:
 		extracted_data = s
                 break     
             for word in wordList:
-                print word, "|", s
                 if word not in candidate_levensthein_extracted_data:
                     distance = self.levenshtein_distance(word, s)
                     if distance <= LEVENSTHEIN_MAX_DISTANCE:
@@ -135,65 +135,74 @@ class LevenshteinExtraction:
     def fillMasterData(self):
         for masterDegree in MasterDegrees.objects.all():
             if self.MASTER_DEGREES in self.master_data:
-                self.master_data[self.MASTER_DEGREES].append(masterDegree.name)
+                self.master_data[self.MASTER_DEGREES].append(
+                    masterDegree.name.lower())
             else:
-                self.master_data[self.MASTER_DEGREES] = [masterDegree.name]
+                self.master_data[self.MASTER_DEGREES] = [
+                    masterDegree.name.lower()
+                ]
 
         for masterMajors in MasterMajors.objects.all():
             if self.MASTER_MAJORS in self.master_data:
-                self.master_data[self.MASTER_MAJORS].append(masterMajors.name)
+                self.master_data[self.MASTER_MAJORS].append(
+                    masterMajors.name.lower())
             else:
-                self.master_data[self.MASTER_MAJORS] = [masterMajors.name]
+                self.master_data[self.MASTER_MAJORS] = [
+                    masterMajors.name.lower()
+                ]
 
         for masterFacilities in MasterFacilities.objects.all():
             if self.MASTER_FACILITIES in self.master_data:
                 self.master_data[self.MASTER_FACILITIES].append(
-                    masterFacilities.name)
+                    masterFacilities.name.lower())
             else:
                 self.master_data[self.MASTER_FACILITIES] = [
-                    masterFacilities.name
+                    masterFacilities.name.lower()
                 ]
 
         for masterFields in MasterFields.objects.all():
             if self.MASTER_FIELDS in self.master_data:
-                self.master_data[self.MASTER_FIELDS].append(masterFields.name)
+                self.master_data[self.MASTER_FIELDS].append(
+                    masterFields.name.lower())
             else:
-                self.master_data[self.MASTER_FIELDS] = [masterFields.name]
+                self.master_data[self.MASTER_FIELDS] = [
+                    masterFields.name.lower()
+                ]
 
         for masterIndustries in MasterIndustries.objects.all():
             if self.MASTER_INDUSTRIES in self.master_data:
                 self.master_data[self.MASTER_INDUSTRIES].append(
-                    masterIndustries.name)
+                    masterIndustries.name.lower())
             else:
                 self.master_data[self.MASTER_INDUSTRIES] = [
-                    masterIndustries.name
+                    masterIndustries.name.lower()
                 ]
 
         for masterJobLevels in MasterJobLevels.objects.all():
             if self.MASTER_JOB_LEVELS in self.master_data:
                 self.master_data[self.MASTER_JOB_LEVELS].append(
-                    masterJobLevels.name)
+                    masterJobLevels.name.lower())
             else:
                 self.master_data[self.MASTER_JOB_LEVELS] = [
-                    masterJobLevels.name
+                    masterJobLevels.name.lower()
                 ]
 
         for masterLocations in MasterLocations.objects.all():
             if self.MASTER_LOCATIONS in self.master_data:
                 self.master_data[self.MASTER_LOCATIONS].append(
-                    masterLocations.name)
+                    masterLocations.name.lower())
             else:
                 self.master_data[self.MASTER_LOCATIONS] = [
-                    masterLocations.name
+                    masterLocations.name.lower()
                 ]
 
         for masterSkillSets in MasterSkillSets.objects.all():
             if self.MASTER_SKILL_SETS in self.master_data:
                 self.master_data[self.MASTER_SKILL_SETS].append(
-                    masterSkillSets.name)
+                    masterSkillSets.name.lower())
             else:
                 self.master_data[self.MASTER_SKILL_SETS] = [
-                    masterSkillSets.name
+                    masterSkillSets.name.lower()
                 ]
 
     def fillDict(self):
