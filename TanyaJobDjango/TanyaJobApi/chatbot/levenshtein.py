@@ -55,7 +55,9 @@ class LevenshteinExtraction:
         candidate_levensthein_extracted_data = []
         for s in selected_master_data:
             if s in wordList:
-                flag = 0
+                candidate_contain_extracted_data = []  # Null it If Exact Match
+                candidate_levensthein_extracted_data = [
+                ]  # Null it If Exact Match
                 extracted_data = s
                 break
             for word in wordList:
@@ -67,16 +69,18 @@ class LevenshteinExtraction:
                 if (a in s):
                     if s not in candidate_contain_extracted_data:
                         candidate_contain_extracted_data.append(s)
-
+        typo_correction = False
+        suggested_word = None
         if len(candidate_contain_extracted_data) > 1:
             if (len(candidate_levensthein_extracted_data) == 1):
                 extracted_data = candidate_levensthein_extracted_data[0]
             else:
-                extracted_data = ""
+                typo_correction = True
+                suggested_word = candidate_levensthein_extracted_data
         elif len(candidate_contain_extracted_data) == 1:
             extracted_data = candidate_contain_extracted_data[0]
 
-        return extracted_data
+        return extracted_data, typo_correction, suggested_word
 
     def levenshtein_distance(self, a, b):
         """Return the Levenshtein edit distance between two strings *a* and *b*."""

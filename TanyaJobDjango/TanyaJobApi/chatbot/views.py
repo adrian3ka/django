@@ -106,8 +106,13 @@ def ExtractInformation(request):
 def ExtractInformationV2(request):
     body_unicode = request.body.decode('utf-8')
     body = json.loads(body_unicode)
-    info = levenshtein.template_matching(body['category'], body['text'])
-    return Response({"message": info})
+    info, typo_correction, suggested_word = levenshtein.template_matching(
+        body['category'], body['text'])
+    return Response({
+        "message": info,
+        "typo_correction": typo_correction,
+        "suggested_word": suggested_word
+    })
 
 
 @api_view(['POST'])
