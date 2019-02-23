@@ -118,6 +118,7 @@ def ExtractInformationV2(request):
         if val[1] == 'NN' or (idx > 0 and result[idx-1][1] == 'NN'):
             extracted += val[0] + ' '
     extracted = ''.join(extracted)
+    print extracted
     result = None
     info, typo_correction, suggested_word = levenshtein.template_matching(
         body['category'], extracted)
