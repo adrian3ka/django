@@ -113,9 +113,10 @@ def ExtractInformationV2(request):
     body_unicode = request.body.decode('utf-8')
     body = json.loads(body_unicode)
     result = tagger.getTagger(body['text'])
+    print result
     extracted = []
     for idx, val in enumerate(result):
-        if val[1] == 'NN' or (idx > 0 and result[idx-1][1] == 'NN'):
+        if ('NN' in val[1]) or (idx > 0 and ('NN' in result[idx-1][1])):
             extracted += val[0] + ' '
     extracted = ''.join(extracted)
     print extracted
