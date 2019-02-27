@@ -13,8 +13,14 @@ from rest_framework.response import Response
 import json
 import random
 from .levenshtein import LevenshteinExtraction
+from .WordTagger import TextTagger
+
+
+with open('./data_source.json') as f:
+    data_source = json.load(f)
 
 levenshtein = LevenshteinExtraction()
+tagger = TextTagger(data_source["text_tagger"])
 
 
 class DefaultsMixin(object):
@@ -106,8 +112,20 @@ def ExtractInformation(request):
 def ExtractInformationV2(request):
     body_unicode = request.body.decode('utf-8')
     body = json.loads(body_unicode)
+    if len(body['text'].split()) > 2:
+        result = tagger.getTagger(body['text'])
+        print result
+        extracted = ""
+        for idx, val in enumerate(result):
+            if ('NN' in val[1]) or (idx > 0 and ('NN' in result[idx-1][1])) or (idx < len(result) and ('NN' in result[idx+1][1])):
+                extracted += val[0] + ' '
+        extracted = ''.join(extracted)
+        result = None
+    else: 
+        extracted = body['text']
+    print extracted
     info, typo_correction, suggested_word = levenshtein.template_matching(
-        body['category'], body['text'])
+        body['category'], extracted)
     return Response({
         "message": info,
         "typo_correction": typo_correction,

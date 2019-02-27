@@ -1,0 +1,3 @@
+{
+  "text_tagger": ["./chatbot/data_train/UI-1M-tagged.txt","./chatbot/data_train/UI-2M-tagged.txt"]
+}
