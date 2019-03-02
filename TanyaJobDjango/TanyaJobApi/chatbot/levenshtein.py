@@ -60,7 +60,6 @@ class LevenshteinExtraction:
         candidate_extracted_data = []
         for s in selected_master_data:
             if s in text:
-                print "XXXXXXXXXXXXXXXXXXXXXXXXXXX", s , text
                 if (extracted_data == ""):
                     extracted_data = s
                 continue
@@ -69,12 +68,7 @@ class LevenshteinExtraction:
                     distance = self.levenshtein_distance(word, s)
                     if distance <= LEVENSTHEIN_MAX_DISTANCE:
                         candidate_extracted_data.append(s)
-            for a in items:
-                if (a in s):
-                    if s not in candidate_extracted_data:
-                        candidate_extracted_data.append(s)
-            print "halo ", candidate_extracted_data
-        print "ex", extracted_data
+
         typo_correction = False
         suggested_word = None
         if extracted_data != "" and len(candidate_extracted_data) == 0 :
