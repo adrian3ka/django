@@ -46,7 +46,7 @@ class LevenshteinExtraction:
         elif category in self.NUMERIC_MAP_CATEGORY:
             extracted_data = int(re.search(r'\d+', text).group())
         else:
-            return "Category Not Exists"
+            return "Category Not Exists", None, None
 
         items = text.split()
         wordList = []
@@ -85,6 +85,8 @@ class LevenshteinExtraction:
                 suggested_word = candidate_levensthein_extracted_data
         elif len(candidate_contain_extracted_data) == 1:
             extracted_data = candidate_contain_extracted_data[0]
+        elif (len(candidate_levensthein_extracted_data) > 1):
+            suggested_word = candidate_levensthein_extracted_data
 
         return extracted_data, typo_correction, suggested_word
 
