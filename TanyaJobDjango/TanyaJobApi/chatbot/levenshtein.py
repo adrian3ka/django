@@ -41,9 +41,9 @@ class LevenshteinExtraction:
         "Master": "Master (s2)",
         "s3": "Doktor (s3)",
         "Doktor": "Doktor (s3)",
-        "sekolah Menengah atas": "sma",
-        "sekolah Menengah keatas": "sma",
-        "sekolah Menengah kejuruan": "smk",
+        "sekolah menengah atas": "sma",
+        "sekolah menengah keatas": "sma",
+        "sekolah menengah kejuruan": "smk",
     }
 
     def template_matching(self, category, text):
@@ -66,6 +66,14 @@ class LevenshteinExtraction:
             if items[i] in self.SPECIAL_MAPS:
                 items[i] = self.SPECIAL_MAPS[items[i]]
         wordList = []
+
+        for word in wordList:
+            if word in self.SPECIAL_MAPS:
+                print word
+                text = text.replace(word, self.SPECIAL_MAPS[word], -1)
+
+        items = text.split()
+
         for i in range(len(items)):
             temp_outer = []
             for j in range(i, len(items)):

@@ -70,17 +70,17 @@ class JobRecommendationDecisionTree:
             self.generateDecisionTree()
 
         if input_data["location"] not in list(self.labelLocations.classes_):
-            return "Location Not in Recommendation List"
+            return ["Location Not in Recommendation List"]
         if input_data["degree"] not in list(self.labelDegrees.classes_):
-            return "Degree Not in Recommendation List"
+            return ["Degree Not in Recommendation List"]
         if input_data["major"] not in list(self.labelMajors.classes_):
-            return "Major Not in Recommendation List"
+            return ["Major Not in Recommendation List"]
         if input_data["industry"] not in list(self.labelIndustries.classes_):
-            return "Industry Not in Recommendation List"
+            return ["Industry Not in Recommendation List"]
         if input_data["field"] not in list(self.labelFields.classes_):
-            return "Field Not in Recommendation List"
+            return ["Field Not in Recommendation List"]
         if input_data["job_level"] not in list(self.labelJobLevels.classes_):
-            return "Job Level in Recommendation List"
+            return ["Job Level in Recommendation List"]
         list_value_input = [
             self.labelDegrees.transform([input_data["degree"]])[0],
             self.labelMajors.transform([input_data["major"]])[0],

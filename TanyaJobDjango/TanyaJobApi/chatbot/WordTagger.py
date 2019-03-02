@@ -3,7 +3,7 @@ from nltk.tokenize import sent_tokenize, word_tokenize
 
 
 class TextTagger:
-    bigram_tagger = nltk.tag.sequential.BigramTagger
+    trigram_tagger = nltk.tag.sequential.TrigramTagger
 
     def __init__(self, fileName):
         patterns = ""
@@ -45,10 +45,11 @@ class TextTagger:
         default_tagger = nltk.DefaultTagger('NN')
         regexp_tagger = nltk.RegexpTagger(patterns, backoff=default_tagger)
         unigram_tagger = nltk.UnigramTagger(sent_tagged, backoff=regexp_tagger)
-        self.bigram_tagger = nltk.BigramTagger(
-            sent_tagged, backoff=unigram_tagger)
+        bigram_tagger = nltk.tag.sequential.BigramTagger(sent_tagged, backoff=unigram_tagger)
+        self.trigram_tagger = nltk.TrigramTagger(
+            sent_tagged, backoff=bigram_tagger)
 
     def getTagger(self, text):
         word_tokenize_list = text.split(' ')
         print "WORD", word_tokenize_list
-        return self.bigram_tagger.tag(word_tokenize_list)
+        return self.trigram_tagger.tag(word_tokenize_list)
