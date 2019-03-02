@@ -13,6 +13,7 @@ from rest_framework.response import Response
 import json
 import random
 from .levenshtein import LevenshteinExtraction
+from .classifier import TextClassifier
 from .WordTagger import TextTagger
 
 
@@ -20,6 +21,7 @@ with open('./data_source.json') as f:
     data_source = json.load(f)
 
 levenshtein = LevenshteinExtraction()
+classifier = TextClassifier()
 tagger = TextTagger(data_source["text_tagger"])
 
 
@@ -108,10 +110,36 @@ def ExtractInformation(request):
     return Response({"message": info})
 
 
+MAP_CLASSIFIER = {
+    "Degree": "Degree",
+    "Major": "Major",
+    "Facility": "Facility",
+    "Field": "Field",
+    "Industry": "Industry",
+    "JobLevel": "JobLevel",
+    "ExpectedLocation": "Location",
+    "SkillSet": "SkillSet",
+    "Age": "Age", 
+    "SalaryUpper": "Salary", 
+    "SalaryLower": "Salary"
+}
+
 @api_view(['POST'])
 def ExtractInformationV2(request):
     body_unicode = request.body.decode('utf-8')
     body = json.loads(body_unicode)
+
+    category = classifier.predict([body['text']])
+    print category
+
+    if category[0] != MAP_CLASSIFIER[body['category']]:
+        return Response({
+            "message": "Mismatch text and category",
+            "typo_correction": None,
+            "suggested_word": None,
+            "category": False
+        })
+
     if len(body['text'].split()) > 2:
         result = tagger.getTagger(body['text'])
         print result
@@ -129,7 +157,8 @@ def ExtractInformationV2(request):
     return Response({
         "message": info,
         "typo_correction": typo_correction,
-        "suggested_word": suggested_word
+        "suggested_word": suggested_word,
+        "category": True
     })
 
 

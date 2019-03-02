@@ -34,8 +34,7 @@ class LevenshteinExtraction:
     }
     NUMERIC_MAP_CATEGORY = ["Age", "SalaryUpper", "SalaryLower"]
 
-    def 
-(self, category, text):
+    def template_matching(self, category, text):
         text = text.lower()
         if not self.master_data:
             self.fillMasterData()
