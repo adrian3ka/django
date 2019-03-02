@@ -57,36 +57,37 @@ class LevenshteinExtraction:
                 temp = copy.copy(temp_outer)
                 wordList.append((' ').join(temp))
 
-        candidate_contain_extracted_data = []
-        candidate_levensthein_extracted_data = []
+        candidate_extracted_data = []
         for s in selected_master_data:
             if s in text:
-                candidate_contain_extracted_data = []  # Null it If Exact Match
-                candidate_levensthein_extracted_data = [
-                ]  # Null it If Exact Match
-                extracted_data = s
-                break
+                print "XXXXXXXXXXXXXXXXXXXXXXXXXXX", s , text
+                if (extracted_data == ""):
+                    extracted_data = s
+                continue
             for word in wordList:
-                if word not in candidate_levensthein_extracted_data:
+                if word not in candidate_extracted_data:
                     distance = self.levenshtein_distance(word, s)
                     if distance <= LEVENSTHEIN_MAX_DISTANCE:
-                        candidate_levensthein_extracted_data.append(s)
+                        candidate_extracted_data.append(s)
             for a in items:
                 if (a in s):
-                    if s not in candidate_contain_extracted_data:
-                        candidate_contain_extracted_data.append(s)
+                    if s not in candidate_extracted_data:
+                        candidate_extracted_data.append(s)
+            print "halo ", candidate_extracted_data
+        print "ex", extracted_data
         typo_correction = False
         suggested_word = None
-        if len(candidate_contain_extracted_data) > 1:
-            if (len(candidate_levensthein_extracted_data) == 1):
-                extracted_data = candidate_levensthein_extracted_data[0]
-            else:
-                typo_correction = True
-                suggested_word = candidate_levensthein_extracted_data
-        elif len(candidate_contain_extracted_data) == 1:
-            extracted_data = candidate_contain_extracted_data[0]
-        elif (len(candidate_levensthein_extracted_data) > 1):
-            suggested_word = candidate_levensthein_extracted_data
+        if extracted_data != "" and len(candidate_extracted_data) == 0 :
+            suggested_word = []
+        if extracted_data != "" and len(candidate_extracted_data) > 0 :
+            suggested_word = candidate_extracted_data
+            typo_correction = True
+        elif (len(candidate_extracted_data) == 1) and extracted_data == "":
+            extracted_data = candidate_extracted_data[0]
+            typo_correction = True
+        elif (len(candidate_extracted_data) > 1) and extracted_data == "":
+            suggested_word = candidate_extracted_data
+            typo_correction = True
 
         return extracted_data, typo_correction, suggested_word
 

@@ -19,6 +19,7 @@ class TextClassifier:
                       'JobLevel',
                       'Major',
                       'Salaries',
+                      'Location',
                       'WorkExperiences']
         data_train = skd.load_files('./chatbot/CustomCorpusChatbot', categories=categories,
                                 encoding='ISO-8859-1')
