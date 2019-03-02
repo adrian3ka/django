@@ -2,6 +2,7 @@ from .models import UserAnswer, BotQuestion, MasterDegrees, MasterMajors, Master
 import re, copy
 GENERAL_VALUE = "{{x}}"
 LEVENSTHEIN_MAX_DISTANCE = 2
+MIN_LETTER_FOR_LEVENSTHEIN = LEVENSTHEIN_MAX_DISTANCE + 2
 
 
 class LevenshteinExtraction:
@@ -88,9 +89,10 @@ class LevenshteinExtraction:
                     extracted_data = s
                 continue
             for word in wordList:
+                if len(word) < MIN_LETTER_FOR_LEVENSTHEIN:
+                    break
                 distance = self.levenshtein_distance(word, s)
                 if distance <= LEVENSTHEIN_MAX_DISTANCE:
-                    print distance, word, s
                     if s not in candidate_extracted_data:
                         candidate_extracted_data.append(s)
 
