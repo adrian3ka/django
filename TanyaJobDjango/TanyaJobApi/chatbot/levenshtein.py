@@ -34,6 +34,18 @@ class LevenshteinExtraction:
     }
     NUMERIC_MAP_CATEGORY = ["Age", "SalaryUpper", "SalaryLower"]
 
+    SPECIAL_MAPS = {
+        "s1": "Sarjana (s1)",
+        "sarjana": "Sarjana (s1)",
+        "s2": "Master (s2)",
+        "Master": "Master (s2)",
+        "s3": "Doktor (s3)",
+        "Doktor": "Doktor (s3)",
+        "sekolah Menengah atas": "sma",
+        "sekolah Menengah keatas": "sma",
+        "sekolah Menengah kejuruan": "smk",
+    }
+
     def template_matching(self, category, text):
         text = text.lower()
         if not self.master_data:
@@ -49,6 +61,10 @@ class LevenshteinExtraction:
             return "Category Not Exists", None, None
 
         items = text.split()
+
+        for i in range(len(items)):
+            if items[i] in self.SPECIAL_MAPS:
+                items[i] = self.SPECIAL_MAPS[items[i]]
         wordList = []
         for i in range(len(items)):
             temp_outer = []
@@ -64,16 +80,17 @@ class LevenshteinExtraction:
                     extracted_data = s
                 continue
             for word in wordList:
-                if word not in candidate_extracted_data:
-                    distance = self.levenshtein_distance(word, s)
-                    if distance <= LEVENSTHEIN_MAX_DISTANCE:
+                distance = self.levenshtein_distance(word, s)
+                if distance <= LEVENSTHEIN_MAX_DISTANCE:
+                    print distance, word, s
+                    if s not in candidate_extracted_data:
                         candidate_extracted_data.append(s)
 
         typo_correction = False
         suggested_word = None
-        if extracted_data != "" and len(candidate_extracted_data) == 0 :
+        if extracted_data != "" and len(candidate_extracted_data) == 0:
             suggested_word = []
-        if extracted_data != "" and len(candidate_extracted_data) > 0 :
+        elif extracted_data != "" and len(candidate_extracted_data) > 0:
             suggested_word = candidate_extracted_data
             typo_correction = True
         elif (len(candidate_extracted_data) == 1) and extracted_data == "":

@@ -16,7 +16,6 @@ from .levenshtein import LevenshteinExtraction
 from .classifier import TextClassifier
 from .WordTagger import TextTagger
 
-
 with open('./data_source.json') as f:
     data_source = json.load(f)
 
@@ -119,10 +118,11 @@ MAP_CLASSIFIER = {
     "JobLevel": "JobLevel",
     "ExpectedLocation": "Location",
     "SkillSet": "SkillSet",
-    "Age": "Age", 
-    "SalaryUpper": "Salary", 
+    "Age": "Age",
+    "SalaryUpper": "Salary",
     "SalaryLower": "Salary"
 }
+
 
 @api_view(['POST'])
 def ExtractInformationV2(request):
@@ -145,11 +145,14 @@ def ExtractInformationV2(request):
         print result
         extracted = ""
         for idx, val in enumerate(result):
-            if ('NN' in val[1]) or (idx > 0 and ('NN' in result[idx-1][1])) or (idx < len(result) and ('NN' in result[idx+1][1])):
+            if ('NN' in val[1]) or (idx > 0 and
+                                    ('NN' in result[idx - 1][1])) or (
+                                        idx < len(result) and
+                                        ('NN' in result[idx + 1][1])):
                 extracted += val[0] + ' '
         extracted = ''.join(extracted)
         result = None
-    else: 
+    else:
         extracted = body['text']
     print extracted
     info, typo_correction, suggested_word = levenshtein.template_matching(
