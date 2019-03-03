@@ -68,12 +68,8 @@ class LevenshteinExtraction:
                 items[i] = self.SPECIAL_MAPS[items[i]]
         wordList = []
 
-        for word in wordList:
-            if word in self.SPECIAL_MAPS:
-                print word
-                text = text.replace(word, self.SPECIAL_MAPS[word], -1)
-
-        items = text.split()
+        text = (' ').join(items)
+        text = text.lower()
 
         for i in range(len(items)):
             temp_outer = []
