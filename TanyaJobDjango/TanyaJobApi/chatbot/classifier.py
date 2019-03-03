@@ -14,7 +14,7 @@ class TextClassifier:
         print "Learning Classifier"
         categories = [
             'Age', 'Degree', 'Facilities', 'Field', 'Industry', 'JobLevel',
-            'Major', 'Salaries', 'Location', 'WorkExperiences'
+            'Major', 'Salary', 'Location', 'WorkExperience', 'SkillSet'
         ]
         data_train = skd.load_files(
             './chatbot/CustomCorpusChatbot',
