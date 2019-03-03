@@ -13,7 +13,7 @@ from rest_framework.response import Response
 import json
 import random
 from .levenshtein import LevenshteinExtraction
-from .classifier import TextClassifier
+from .classifier import TextClassifier, FreshGraduateClassifier
 from .WordTagger import TextTagger
 
 with open('./data_source.json') as f:
@@ -21,6 +21,7 @@ with open('./data_source.json') as f:
 
 levenshtein = LevenshteinExtraction()
 classifier = TextClassifier()
+freshGraduateClassifier = FreshGraduateClassifier()
 tagger = TextTagger(data_source["text_tagger"])
 
 
@@ -163,6 +164,16 @@ def ExtractInformationV2(request):
         "suggested_word": suggested_word,
         "category": True
     })
+
+
+@api_view(['POST'])
+def FreshGraduateExtraction(request):
+    body_unicode = request.body.decode('utf-8')
+    body = json.loads(body_unicode)
+
+    category = freshGraduateClassifier.predict([body['text']])
+    print category
+    return Response({"fresh_graduate": category})
 
 
 @api_view(['POST'])

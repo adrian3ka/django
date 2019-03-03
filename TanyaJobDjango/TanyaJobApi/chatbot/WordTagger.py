@@ -45,7 +45,8 @@ class TextTagger:
         default_tagger = nltk.DefaultTagger('NN')
         regexp_tagger = nltk.RegexpTagger(patterns, backoff=default_tagger)
         unigram_tagger = nltk.UnigramTagger(sent_tagged, backoff=regexp_tagger)
-        bigram_tagger = nltk.tag.sequential.BigramTagger(sent_tagged, backoff=unigram_tagger)
+        bigram_tagger = nltk.tag.sequential.BigramTagger(
+            sent_tagged, backoff=unigram_tagger)
         self.trigram_tagger = nltk.TrigramTagger(
             sent_tagged, backoff=bigram_tagger)
 
