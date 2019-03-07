@@ -75,21 +75,21 @@ class JobRecommendationDecisionTree:
             return ["Degree Not in Recommendation List"]
         if input_data["major"] not in list(self.labelMajors.classes_):
             return ["Major Not in Recommendation List"]
-        if input_data["industry"] not in list(self.labelIndustries.classes_):
+        if input_data["industry"] not in list(self.labelIndustries.classes_) and input_data["industry"] is not None:
             return ["Industry Not in Recommendation List"]
-        if input_data["field"] not in list(self.labelFields.classes_):
+        if input_data["field"] not in list(self.labelFields.classes_) and input_data["field"] is not None:
             return ["Field Not in Recommendation List"]
-        if input_data["job_level"] not in list(self.labelJobLevels.classes_):
+        if input_data["job_level"] not in list(self.labelJobLevels.classes_) and input_data["job_level"] is not None:
             return ["Job Level in Recommendation List"]
         list_value_input = [
             self.labelDegrees.transform([input_data["degree"]])[0],
             self.labelMajors.transform([input_data["major"]])[0],
-            self.labelIndustries.transform([input_data["industry"]])[0],
+            self.labelIndustries.transform([input_data["industry"]])[0] if input_data["industry"] is not None else -1,
             input_data["min_age"], input_data["max_age"],
-            self.labelFields.transform([input_data["field"]])[0],
+            self.labelFields.transform([input_data["field"]])[0] if input_data["field"] is not None else -1,
             self.labelLocations.transform([input_data["location"]])[0],
-            self.labelJobLevels.transform(
-                [input_data["job_level"]])[0], input_data["work_exp"],
+            self.labelJobLevels.transform([input_data["job_level"]])[0] if input_data["job_level"] is not None else -1,
+            input_data["work_exp"],
             input_data["min_salary"], input_data["max_salary"]
         ]
 
@@ -148,4 +148,4 @@ class JobRecommendationDecisionTree:
             target_names=self.targetDatas)
 
         self.decision_tree_classifier = self.train_model()
-        self.display_image()
+        #self.display_image()
