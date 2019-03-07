@@ -63,5 +63,8 @@ class FreshGraduateClassifier:
         predicted = self.classifier.predict(text_tfidf)
         categories = []
         for x in predicted:
-            categories.append(self.target[x])
+            if self.target[x] == "True":
+                categories.append(True)
+            else:
+                categories.append(False)
         return categories
