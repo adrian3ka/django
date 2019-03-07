@@ -97,6 +97,10 @@ payload = [
     '{"category": "ExpectedLocation",		"text": "Di mana lokasi penempatan kerja yang kamu inginkan?"}',
     '{"category": "ExpectedLocation",		"text": "Lokasi manakah yang kamu inginkan utk bekerja?"}',
     '{"category": "ExpectedLocation",		"text": "Di kota manakah kamu bersedia ditempatkan?"}',
+    '{"category": "FreshGraduate",		"text": "Kamu barusan lulus atau sudah pernah bekerja nih?"}',
+    '{"category": "FreshGraduate",		"text": "Kalau kamu udah pernah kerja atau baru aja lulus?"}',
+    '{"category": "FreshGraduate",		"text": "Eh kalau kamu udah kerja atau baru lulus sih?"}',
+    '{"category": "FreshGraduate",		"text": "Mau nanya dong kamu udah kerja atau baru lulus ya?"}',
 ]
 headers = {
     'Content-Type': "application/json",
