@@ -2,7 +2,7 @@ from .models import UserAnswer, BotQuestion, MasterDegrees, MasterMajors, Master
 import re, copy
 GENERAL_VALUE = "{{x}}"
 LEVENSTHEIN_MAX_DISTANCE = 2
-MIN_LETTER_FOR_LEVENSTHEIN = LEVENSTHEIN_MAX_DISTANCE + 2
+MIN_LETTER_FOR_LEVENSTHEIN = LEVENSTHEIN_MAX_DISTANCE + 3
 
 
 class LevenshteinExtraction:
