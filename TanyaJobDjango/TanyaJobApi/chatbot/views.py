@@ -121,7 +121,9 @@ MAP_CLASSIFIER = {
     "SkillSet": "SkillSet",
     "Age": "Age",
     "SalaryUpper": "Salary",
-    "SalaryLower": "Salary"
+    "SalaryLower": "Salary",
+    "ExpectedLocation": "Location",
+    "WorkExp": "WorkExperience"
 }
 
 

@@ -33,7 +33,7 @@ class LevenshteinExtraction:
         "ExpectedLocation": MASTER_LOCATIONS,
         "SkillSet": MASTER_SKILL_SETS,
     }
-    NUMERIC_MAP_CATEGORY = ["Age", "SalaryUpper", "SalaryLower"]
+    NUMERIC_MAP_CATEGORY = ["Age", "SalaryUpper", "SalaryLower", "WorkExp"]
 
     SPECIAL_MAPS = {
         "s1": "Sarjana (s1)",
