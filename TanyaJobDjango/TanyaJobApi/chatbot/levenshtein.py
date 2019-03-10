@@ -75,8 +75,8 @@ class LevenshteinExtraction:
             temp_outer = []
             for j in range(i, len(items)):
                 temp_outer.append(items[j])
-                temp = copy.copy(temp_outer)
-                wordList.append((' ').join(temp))
+            temp = copy.copy(temp_outer)
+            wordList.append((' ').join(temp))
 
         candidate_extracted_data = []
         for s in selected_master_data:
