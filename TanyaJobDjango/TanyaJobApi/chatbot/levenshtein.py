@@ -75,8 +75,9 @@ class LevenshteinExtraction:
             temp_outer = []
             for j in range(i, len(items)):
                 temp_outer.append(items[j])
-            temp = copy.copy(temp_outer)
-            wordList.append((' ').join(temp))
+                temp = copy.copy(temp_outer)
+                wordList.append((' ').join(temp))
+        print wordList
 
         candidate_extracted_data = []
         for s in selected_master_data:
@@ -86,7 +87,7 @@ class LevenshteinExtraction:
                 continue
             for word in wordList:
                 if len(word) < MIN_LETTER_FOR_LEVENSTHEIN:
-                    break
+                    continue
                 distance = self.levenshtein_distance(word, s)
                 if distance <= LEVENSTHEIN_MAX_DISTANCE:
                     if s not in candidate_extracted_data:
