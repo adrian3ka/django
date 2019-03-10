@@ -6,6 +6,7 @@ import sklearn.datasets
 from sklearn.datasets import load_iris
 from sklearn import tree
 from sklearn import preprocessing
+from sklearn.ensemble import RandomForestClassifier
 from IPython.display import Image, display
 import MySQLdb
 
@@ -41,7 +42,7 @@ class JobRecommendationDecisionTree:
     labelJobLevels = sklearn.preprocessing.LabelEncoder()
 
     def train_model(self, max=999999):
-        self.clf = tree.DecisionTreeClassifier(max_depth=max)
+        self.clf = RandomForestClassifier(max_depth=max, n_estimators=1000)
         self.clf = self.clf.fit(self.collection.data, self.collection.target)
         return self.clf
 
@@ -50,20 +51,6 @@ class JobRecommendationDecisionTree:
         encoder.fit(datas)
         encodedData = encoder.transform(datas)
         return encodedData
-
-    def display_image(self):
-        dot_data = tree.export_graphviz(
-            self.decision_tree_classifier,
-            out_file=None,
-            feature_names=self.collection.feature_names,
-            class_names=self.collection.target_names,
-            filled=True,
-            rounded=True)
-
-        graph = pydotplus.graph_from_dot_data(dot_data)
-        display(Image(data=graph.create_png()))
-        # Create PNG
-        graph.write_png("iris.png")
 
     def decide(self, input_data):
         if self.decision_tree_classifier == None:
@@ -148,4 +135,3 @@ class JobRecommendationDecisionTree:
             target_names=self.targetDatas)
 
         self.decision_tree_classifier = self.train_model()
-        #self.display_image()
