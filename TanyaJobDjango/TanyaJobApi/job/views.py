@@ -5,11 +5,13 @@ from django.shortcuts import render
 from .models import Job
 from .serializers import JobSerializer
 from .decision_tree import JobRecommendationDecisionTree
+from .hot_decision_tree import HotJobRecommendationDecisionTree
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 import json
 
 model = JobRecommendationDecisionTree()
+hotModel = HotJobRecommendationDecisionTree()
 
 
 # Create your views here.
@@ -23,5 +25,5 @@ class JobViewSet(viewsets.ModelViewSet):
 def GetJobRecommendation(request):
     body_unicode = request.body.decode('utf-8')
     body = json.loads(body_unicode)
-    data = model.decide(body)
+    data = hotModel.decide(body)
     return Response({"job_title": data})

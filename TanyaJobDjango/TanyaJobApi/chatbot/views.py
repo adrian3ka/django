@@ -132,20 +132,20 @@ def ExtractInformationV2(request):
     body_unicode = request.body.decode('utf-8')
     body = json.loads(body_unicode)
 
-    category = classifier.predict([body['text']])
-    print category
-
-    if category[0] != MAP_CLASSIFIER[body['category']]:
-        return Response({
-            "message": "Mismatch text and category",
-            "typo_correction": None,
-            "suggested_word": None,
-            "category": False
-        })
-
     if len(body['text'].split()) > 2:
+        category = classifier.predict([body['text']])
+        print category
+
+        if category[0] != MAP_CLASSIFIER[body['category']]:
+            return Response({
+                "message": "Mismatch text and category",
+                "typo_correction": None,
+                "suggested_word": None,
+                "category": False
+            })
+
         result = tagger.getTagger(body['text'])
-        print result
+
         extracted = ""
         for idx, val in enumerate(result):
             if ('NN' in val[1]) or (idx > 0 and
