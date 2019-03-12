@@ -39,7 +39,7 @@ payload = [
     '{"category": "SkillSet",			"text": "Coba sebutkan skill yang kamu kuasai"}',
     '{"category": "SkillSet",			"text": "Boleh sebutkan salah satu skill yang kamu miliki?"}',
     '{"category": "SkillSet",			"text": "Apa skill yang kamu miliki?"}',
-    '{"category": "SkillSet",			"text": "Apa skill saja keterampilan yang kamu punya?"}',
+    '{"category": "SkillSet",			"text": "Apa keterampilan yang kamu punya?"}',
     '{"category": "SkillSet",			"text": "Skill apa yang kamu miliki?"}',
     '{"category": "Major",			"text": "Jurusan pendidikan kamu apa?"}',
     '{"category": "Major",			"text": "Kalau boleh tahu jurusan pendidikan kamu apa ya?"}',
