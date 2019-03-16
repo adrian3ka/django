@@ -18,8 +18,7 @@ class TextClassifier:
         ]
         data_train = skd.load_files(
             './chatbot/CustomCorpusChatbot',
-            categories=categories,
-            encoding='ISO-8859-1')
+            categories=categories)
         self.target = data_train.target_names
         x_train_tf = self.count_vect.fit_transform(data_train.data)
 
@@ -48,8 +47,7 @@ class FreshGraduateClassifier:
         categories = ['True', 'False']
         data_train = skd.load_files(
             './chatbot/CustomCorpusChatbot/FreshGraduate',
-            categories=categories,
-            encoding='ISO-8859-1')
+            categories=categories)
         self.target = data_train.target_names
         x_train_tf = self.count_vect.fit_transform(data_train.data)
 
