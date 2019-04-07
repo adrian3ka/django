@@ -12,7 +12,6 @@ import MySQLdb
 
 CATEGORICAL_VALUE = ["major", "degree", "industry", "field", "location", "job_level"]
 CONTINUOUS_VALUE = ["max_age", "min_age", "max_salary", "work_exp", "min_salary"]
-TIDAK_DISEBUTKAN = "Tidak disebutkan"
 
 class JobData:
     title = ''
@@ -46,7 +45,7 @@ class HotJobRecommendationDecisionTree:
     hotEncoder = sklearn.preprocessing.OneHotEncoder(handle_unknown='ignore')
 
     def train_model(self, max=999999):
-        self.clf = RandomForestClassifier(max_depth=max, n_estimators=1000)
+        self.clf = RandomForestClassifier(max_depth=max, n_estimators=20)
         self.clf = self.clf.fit(self.collection.data, self.collection.target)
         return self.clf
 
@@ -99,7 +98,7 @@ class HotJobRecommendationDecisionTree:
         print "Hot JobRecommendationDecisionTree Created"
 
     def generateDecisionTree(self):
-        jobs = Job.objects.exclude(major__in=TIDAK_DISEBUTKAN, industry__in=TIDAK_DISEBUTKAN, field__in=TIDAK_DISEBUTKAN)[0:15000]
+        jobs = Job.objects.all()
         categorical_job_data = []
 
         listDegrees = []
