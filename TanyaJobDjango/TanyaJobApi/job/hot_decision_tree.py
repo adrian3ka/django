@@ -141,6 +141,7 @@ class HotJobRecommendationDecisionTree:
         for hc in hotEncoderData:
             temp_data = [jobs[i].min_age, jobs[i].max_age, jobs[i].work_exp, jobs[i].min_salary, jobs[i].max_salary]
             temp_data.extend(hc.toarray()[0])
+            print jobs[i].title
             temp_target = str(jobs[i].title.encode('utf-8'))
 
             self.jobDatas.append(temp_data)
