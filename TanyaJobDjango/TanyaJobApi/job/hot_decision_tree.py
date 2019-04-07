@@ -1,3 +1,4 @@
+from __future__ import unicode_literals
 from .models import Job
 import numpy as np
 import pydotplus
@@ -9,9 +10,9 @@ from sklearn.ensemble import RandomForestClassifier
 from IPython.display import Image, display
 import MySQLdb
 
-
 CATEGORICAL_VALUE = ["major", "degree", "industry", "field", "location", "job_level"]
 CONTINUOUS_VALUE = ["max_age", "min_age", "max_salary", "work_exp", "min_salary"]
+TIDAK_DISEBUTKAN = "Tidak disebutkan"
 
 class JobData:
     title = ''
@@ -98,7 +99,7 @@ class HotJobRecommendationDecisionTree:
         print "Hot JobRecommendationDecisionTree Created"
 
     def generateDecisionTree(self):
-        jobs = Job.objects.all()
+        jobs = Job.objects.exclude(major__in=TIDAK_DISEBUTKAN, industry__in=TIDAK_DISEBUTKAN, field__in=TIDAK_DISEBUTKAN)[0:15000]
         categorical_job_data = []
 
         listDegrees = []
@@ -140,7 +141,7 @@ class HotJobRecommendationDecisionTree:
         for hc in hotEncoderData:
             temp_data = [jobs[i].min_age, jobs[i].max_age, jobs[i].work_exp, jobs[i].min_salary, jobs[i].max_salary]
             temp_data.extend(hc.toarray()[0])
-            temp_target = str(jobs[i].title)
+            temp_target = str(jobs[i].title.encode('utf-8'))
 
             self.jobDatas.append(temp_data)
             self.targetDatas.append(temp_target)

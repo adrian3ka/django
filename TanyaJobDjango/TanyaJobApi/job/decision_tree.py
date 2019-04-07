@@ -119,7 +119,7 @@ class JobRecommendationDecisionTree:
                 jobs[i].min_salary, jobs[i].max_salary
             ]
 
-            temp_target = str(jobs[i].title)
+            temp_target = str(jobs[i].title.encode('utf-8'))
 
             self.jobDatas.append(temp_data)
             self.targetDatas.append(temp_target)
