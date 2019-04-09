@@ -1,4 +1,6 @@
 from .models import UserAnswer, BotQuestion, MasterDegrees, MasterMajors, MasterFacilities, MasterFields, MasterIndustries, MasterJobLevels, MasterLocations, MasterSkillSets
+from itertools import permutations 
+
 import re, copy
 GENERAL_VALUE = "{{x}}"
 LEVENSTHEIN_MAX_DISTANCE = 2
@@ -16,6 +18,8 @@ class LevenshteinExtraction:
     MASTER_JOB_LEVELS = 'master_job_levels'
     MASTER_LOCATIONS = 'master_locations'
     MASTER_SKILL_SETS = 'master_skill_sets'
+
+    MASTER_JOB_LEVEL_CATEGORY = 'JobLevel'
 
     MASTER_LIST = [
         MASTER_DEGREES, MASTER_MAJORS, MASTER_FACILITIES, MASTER_FIELDS,
@@ -109,11 +113,19 @@ class LevenshteinExtraction:
                 temp_outer.append(items[j])
                 temp = copy.copy(temp_outer)
                 wordList.append((' ').join(temp))
-        print wordList
 
         candidate_extracted_data = []
         for s in selected_master_data:
-            if s in text:
+            if category == self.MASTER_JOB_LEVEL_CATEGORY:
+               words = s.split()
+               perm = permutations(words)
+               for i in list(perm): 
+                   word = (' ').join(i)
+                   if word in text:
+                       if (extracted_data == ""):
+                           extracted_data = s
+                           continue
+            elif s in text:
                 if (extracted_data == ""):
                     extracted_data = s
                 continue
@@ -122,7 +134,7 @@ class LevenshteinExtraction:
                     continue
                 distance = self.levenshtein_distance(word, s)
                 if distance <= LEVENSTHEIN_MAX_DISTANCE:
-                    if s not in candidate_extracted_data:
+                    if s not in candidate_extracted_data and s not in extracted_data:
                         candidate_extracted_data.append(s)
 
         typo_correction = False
@@ -160,7 +172,6 @@ class LevenshteinExtraction:
         if not a:
             return len(b)
         previous_row = range(len(b) + 1)
-        #print a, b
         for i, column1 in enumerate(a):
             current_row = [i + 1]
             for j, column2 in enumerate(b):
