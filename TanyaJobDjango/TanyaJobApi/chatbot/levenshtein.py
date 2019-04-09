@@ -159,7 +159,7 @@ class LevenshteinExtraction:
             suggested_word = candidate_extracted_data
             typo_correction = True
 
-        if category == self.MASTER_SALARY_UPPER_CATEGORY or category == MASTER_SALARY_LOWER_CATEGORY:
+        if category == self.MASTER_SALARY_UPPER_CATEGORY or category == self.MASTER_SALARY_LOWER_CATEGORY:
             for jutaWord in self.JUTA:
                 if jutaWord in text:
                     extracted_data = extracted_data * self.JUTA_VALUE
