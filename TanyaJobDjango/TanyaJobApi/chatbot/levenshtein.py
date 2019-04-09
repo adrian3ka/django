@@ -47,6 +47,38 @@ class LevenshteinExtraction:
         "sekolah menengah kejuruan": "smk",
     }
 
+    KEYBOARD_MAP =  {
+        #"char" : {line, row},
+        "q": [0, 0],
+        "w": [0, 1],
+        "e": [0, 2],
+        "r": [0, 3],
+        "t": [0, 4],
+        "y": [0, 5],
+        "u": [0, 6],
+        "i": [0, 7],
+        "o": [0, 8],
+        "p": [0, 9],
+
+        "a": [1, 0],
+        "s": [1, 1],
+        "d": [1, 2],
+        "f": [1, 3],
+        "g": [1, 4],
+        "h": [1, 5],
+        "j": [1, 6],
+        "k": [1, 7],
+        "l": [1, 8],
+
+        "z": [2, 0],
+        "x": [2, 1],
+        "c": [2, 2],
+        "v": [2, 3],
+        "b": [2, 4],
+        "n": [2, 5],
+        "m": [2, 6],
+    }
+
     def template_matching(self, category, text):
         text = text.lower()
         if not self.master_data:
@@ -109,6 +141,16 @@ class LevenshteinExtraction:
 
         return extracted_data, typo_correction, suggested_word
 
+    def keyboard_distance(self, char1, char2):
+        if char1 not in self.KEYBOARD_MAP or char2 not in self.KEYBOARD_MAP:
+            return 99999
+        kb1 = self.KEYBOARD_MAP[char1]
+	kb2 = self.KEYBOARD_MAP[char2]
+
+        rowDist = abs(kb1[0] - kb2[0])
+        lineDist = abs(kb1[1] - kb2[1])
+        return lineDist + rowDist
+
     def levenshtein_distance(self, a, b):
         """Return the Levenshtein edit distance between two strings *a* and *b*."""
         if a == b:
@@ -118,12 +160,18 @@ class LevenshteinExtraction:
         if not a:
             return len(b)
         previous_row = range(len(b) + 1)
+        #print a, b
         for i, column1 in enumerate(a):
             current_row = [i + 1]
             for j, column2 in enumerate(b):
                 insertions = previous_row[j + 1] + 1
                 deletions = current_row[j] + 1
-                substitutions = previous_row[j] + (column1 != column2)
+                if i == j:
+                    keyboardDistance = self.keyboard_distance(column1, column2)
+                    
+                    substitutions = previous_row[j] + (keyboardDistance)
+                else:
+                    substitutions = previous_row[j] + (column1 != column2)
                 current_row.append(min(insertions, deletions, substitutions))
             previous_row = current_row
         return previous_row[-1]

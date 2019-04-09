@@ -134,8 +134,6 @@ def ExtractInformationV2(request):
 
     if len(body['text'].split()) > 2:
         category = classifier.predict([body['text']])
-        print category
-
         if category[0] != MAP_CLASSIFIER[body['category']]:
             return Response({
                 "message": "Mismatch text and category",
@@ -148,6 +146,8 @@ def ExtractInformationV2(request):
 
         extracted = ""
         for idx, val in enumerate(result):
+            if ('IN' in val[1]):
+                continue
             if ('NN' in val[1]) or (idx > 0 and
                                     ('NN' in result[idx - 1][1])) or (
                                         idx + 1 < len(result) and
@@ -157,7 +157,6 @@ def ExtractInformationV2(request):
         result = None
     else:
         extracted = body['text']
-    print extracted
     info, typo_correction, suggested_word = levenshtein.template_matching(
         body['category'], extracted)
     return Response({
@@ -174,7 +173,6 @@ def FreshGraduateExtraction(request):
     body = json.loads(body_unicode)
 
     category = freshGraduateClassifier.predict([body['text']])
-    print category
     return Response({"fresh_graduate": category})
 
 

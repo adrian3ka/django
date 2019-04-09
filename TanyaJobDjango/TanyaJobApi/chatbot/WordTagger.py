@@ -14,7 +14,7 @@ class TextTagger:
             (r'me[lnryw](a-df-z).+$', 'VB'),
             (r'men[dtcjys].+$', 'VB'),
             (r'di.+(kan|i)$', 'VB'),
-            (r'per.+(kan|i|.)$', 'VB'),
+            #(r'per.+(kan|i|.)$', 'VB'),
             (r'ber.+(kan|an|.)$', 'VB'),
             (r'ter.+(kan|i|.)$', 'VB'),
             (r'(meng|me|mem|men).+(kan|i)$', 'VB'),
