@@ -10,6 +10,8 @@ MIN_LETTER_FOR_LEVENSTHEIN = LEVENSTHEIN_MAX_DISTANCE + 3
 class LevenshteinExtraction:
     dictionary = {}
     master_data = {}
+    JUTA = ["juta", "jt"]
+    JUTA_VALUE = 1000000
     MASTER_DEGREES = 'master_degrees'
     MASTER_MAJORS = 'master_majors'
     MASTER_FACILITIES = 'master_facilities'
@@ -20,6 +22,8 @@ class LevenshteinExtraction:
     MASTER_SKILL_SETS = 'master_skill_sets'
 
     MASTER_JOB_LEVEL_CATEGORY = 'JobLevel'
+    MASTER_SALARY_UPPER_CATEGORY = 'SalaryUpper'
+    MASTER_SALARY_LOWER_CATEGORY = 'SalaryLower'
 
     MASTER_LIST = [
         MASTER_DEGREES, MASTER_MAJORS, MASTER_FACILITIES, MASTER_FIELDS,
@@ -33,11 +37,11 @@ class LevenshteinExtraction:
         "Facility": MASTER_FACILITIES,
         "Field": MASTER_FIELDS,
         "Industry": MASTER_INDUSTRIES,
-        "JobLevel": MASTER_JOB_LEVELS,
+        MASTER_JOB_LEVEL_CATEGORY: MASTER_JOB_LEVELS,
         "ExpectedLocation": MASTER_LOCATIONS,
         "SkillSet": MASTER_SKILL_SETS,
     }
-    NUMERIC_MAP_CATEGORY = ["Age", "SalaryUpper", "SalaryLower", "WorkExp"]
+    NUMERIC_MAP_CATEGORY = ["Age", MASTER_SALARY_UPPER_CATEGORY, MASTER_SALARY_LOWER_CATEGORY, "WorkExp"]
 
     SPECIAL_MAPS = {
         "s1": "Sarjana (s1)",
@@ -154,6 +158,12 @@ class LevenshteinExtraction:
         elif (len(candidate_extracted_data) > 1) and extracted_data == "":
             suggested_word = candidate_extracted_data
             typo_correction = True
+
+        if category == self.MASTER_SALARY_UPPER_CATEGORY or category == MASTER_SALARY_LOWER_CATEGORY:
+            for jutaWord in self.JUTA:
+                if jutaWord in text:
+                    extracted_data = extracted_data * self.JUTA_VALUE
+                    break
 
         return extracted_data, typo_correction, suggested_word
 
