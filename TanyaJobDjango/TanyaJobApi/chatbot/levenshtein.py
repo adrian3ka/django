@@ -153,7 +153,6 @@ class LevenshteinExtraction:
             typo_correction = True
         elif (len(candidate_extracted_data) > 1) and extracted_data == "":
             suggested_word = candidate_extracted_data
-            suggested_word.append(extracted_data)
             typo_correction = True
 
         return extracted_data, typo_correction, suggested_word
