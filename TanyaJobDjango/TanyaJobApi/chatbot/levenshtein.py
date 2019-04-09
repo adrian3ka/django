@@ -125,6 +125,9 @@ class LevenshteinExtraction:
                        if (extracted_data == ""):
                            extracted_data = s
                            continue
+               for word in words:
+                   if word in text and word not in extracted_data:
+                        candidate_extracted_data.append(s)
             elif s in text:
                 if (extracted_data == ""):
                     extracted_data = s
