@@ -134,6 +134,7 @@ def ExtractInformationV2(request):
 
     if len(body['text'].split()) > 2:
         category = classifier.predict([body['text']])
+        print category
         if category[0] != MAP_CLASSIFIER[body['category']]:
             return Response({
                 "message": "Mismatch text and category",
