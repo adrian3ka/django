@@ -144,17 +144,22 @@ def ExtractInformationV2(request):
             })
 
         result = tagger.getTagger(body['text'])
-
+        print result
         extracted = ""
         for idx, val in enumerate(result):
             if ('IN' in val[1]):
                 continue
-            if ('NN' in val[1]) or (idx > 0 and
+            elif ('PRP' in val[1]):
+                continue
+            elif ('CDP' in val[1]):
+                extracted += val[0] + ' '
+            elif ('NN' in val[1]) or (idx > 0 and
                                     ('NN' in result[idx - 1][1])) or (
                                         idx + 1 < len(result) and
                                         ('NN' in result[idx + 1][1])):
                 extracted += val[0] + ' '
         extracted = ''.join(extracted)
+        print extracted
         result = None
     else:
         extracted = body['text']
