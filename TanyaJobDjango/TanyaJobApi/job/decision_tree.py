@@ -64,8 +64,8 @@ class JobRecommendationDecisionTree:
             return ["Major Not in Recommendation List"]
         if input_data["industry"] not in list(self.labelIndustries.classes_) and input_data["industry"] is not None:
             return ["Industry Not in Recommendation List"]
-        if input_data["field"] not in list(self.labelFields.classes_) and input_data["field"] is not None:
-            return ["Field Not in Recommendation List"]
+        #if input_data["field"] not in list(self.labelFields.classes_) and input_data["field"] is not None:
+            #return ["Field Not in Recommendation List"]
         if input_data["job_level"] not in list(self.labelJobLevels.classes_) and input_data["job_level"] is not None:
             return ["Job Level in Recommendation List"]
         list_value_input = [
