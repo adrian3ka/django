@@ -158,6 +158,17 @@ class LevenshteinExtraction:
         elif (len(candidate_extracted_data) > 1) and extracted_data == "":
             suggested_word = candidate_extracted_data
             typo_correction = True
+        elif extracted_data == "" and len(candidate_extracted_data) == 0:
+            suggested_word = []
+            for s in selected_master_data:
+                temp = s.split()
+                acronym = [x[0] for x in temp]
+                if len(acronym) < 2:
+                    continue
+                for word in text.split():
+                    if word == ('').join(acronym):
+                        suggested_word.append(s)
+
 
         if category == self.MASTER_SALARY_UPPER_CATEGORY or category == self.MASTER_SALARY_LOWER_CATEGORY:
             for jutaWord in self.JUTA:

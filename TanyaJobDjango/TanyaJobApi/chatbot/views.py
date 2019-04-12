@@ -132,7 +132,7 @@ def ExtractInformationV2(request):
     body_unicode = request.body.decode('utf-8')
     body = json.loads(body_unicode)
 
-    if len(body['text'].split()) > 2:
+    if len(body['text'].split()) > 3:
         category = classifier.predict([body['text']])
         print category
         if category[0] != MAP_CLASSIFIER[body['category']]:
