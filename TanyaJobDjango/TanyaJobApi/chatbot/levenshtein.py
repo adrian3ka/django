@@ -21,6 +21,8 @@ class LevenshteinExtraction:
     MASTER_LOCATIONS = 'master_locations'
     MASTER_SKILL_SETS = 'master_skill_sets'
 
+    MASTER_MAJOR_CATEGORY = 'Major'
+    MASTER_FIELD_CATEGORY = 'Field'
     MASTER_JOB_LEVEL_CATEGORY = 'JobLevel'
     MASTER_SALARY_UPPER_CATEGORY = 'SalaryUpper'
     MASTER_SALARY_LOWER_CATEGORY = 'SalaryLower'
@@ -33,9 +35,9 @@ class LevenshteinExtraction:
 
     MAP_CATEGORY = {
         "Degree": MASTER_DEGREES,
-        "Major": MASTER_MAJORS,
+        MASTER_MAJOR_CATEGORY: MASTER_MAJORS,
         "Facility": MASTER_FACILITIES,
-        "Field": MASTER_FIELDS,
+        MASTER_FIELD_CATEGORY: MASTER_FIELDS,
         "Industry": MASTER_INDUSTRIES,
         MASTER_JOB_LEVEL_CATEGORY: MASTER_JOB_LEVELS,
         "ExpectedLocation": MASTER_LOCATIONS,
@@ -158,7 +160,7 @@ class LevenshteinExtraction:
         elif (len(candidate_extracted_data) > 1) and extracted_data == "":
             suggested_word = candidate_extracted_data
             typo_correction = True
-        elif extracted_data == "" and len(candidate_extracted_data) == 0:
+        elif extracted_data == "" and len(candidate_extracted_data) == 0 and (category == self.MASTER_MAJOR_CATEGORY or category == self.MASTER_FIELD_CATEGORY):
             suggested_word = []
             for s in selected_master_data:
                 temp = s.split()
@@ -166,6 +168,8 @@ class LevenshteinExtraction:
                 if len(acronym) < 2:
                     continue
                 for word in text.split():
+                    if len(word) < 2:
+                        continue
                     if word == ('').join(acronym):
                         suggested_word.append(s)
 
