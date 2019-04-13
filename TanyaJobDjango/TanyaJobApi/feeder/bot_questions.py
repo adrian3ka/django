@@ -3,7 +3,16 @@ import requests
 url = "http://localhost:8000/api/bot_questions/"
 
 payload = [
-    '{"category": "Age",			"text": "Umur kamu berapa?"}',
+    '{"category": "Opening",			"text": "Hai, selamat datang di website TanyaJob. Kami akan mengajukan beberapa pertanyaan untuk menentukan pekerjaan yang tepat untuk kamu. Kita mulai ya sesi ngobrolnya. Oh ya, kita ngobrolnya pakai Bahasa Indonesia ya."}',
+    '{"category": "Opening",			"text": "Hai, selamat datang di website TanyaJob. Kami akan membantu kamu menentukan pekerjaan yang cocok buat kamu. Yuk mulai sesi konsultasinya. Oh ya, kita ngobrolnya pakai Bahasa Indonesia ya."}',
+    '{"category": "Opening",			"text": "Hai, apa kabar? Selamat datang di TanyaJob. Disini kami akan kasih rekomendasi pekerjaan yang cocok buat kamu. Nah sebelumnya, kami mau ajuin beberapa pertanyaan dulu ya."}',
+    '{"category": "Opening",			"text": "Halo, selamat datang di website TanyaJob. Pasti kamu udah penasaran ya mau tau pekerjaan yang cocok buat kamu? Yuk kita mulai ya sesi konsultasinya."}',
+    '{"category": "Opening",			"text": "Hai, selamat datang di website TanyaJob. Yuk kita ngobrol. Kami mau kasih rekomendasi pekerjaan yang cocok buat kamu loh. Tapi sebelumnya kami mau nanya-nanya dulu ya."}',
+    '{"category": "Opening",			"text": "Selamat datang di Tanyajob! Terima kasih telah memilih kami sebagai konsultan pekerjaan Anda. Dalam sesi konsultasi kali ini, jawablah pertanyaan yang diberikan dengan jujur sehingga kami dapat memberikan rekomendasi yang akurat untuk Anda "}',
+    '{"category": "Opening",			"text": "Selamat datang di TanyaJob! Kami akan kasih rekomendasi pekerjaan yang sesuai untuk kamu, tapi sebelumnya kami akan memberikan beberapa pertanyaan. Yuk berkonsultasi dengan kami. "}',
+    '{"category": "Opening",			"text": "Hai. Di TanyaJob, kamu bisa dapat rekomendasi pekerjaan yang cocok buat kamu loh. Untuk itu, kami butuh jawabanmu dulu ya. Yuk jawab pertanyaan berikut. "}',
+    '{"category": "Opening",			"text": "Halo, Selamat datang di TanyaJob. Kami akan memberikanmu pekerjaan yang cocok sesuai diri kamu. Dijawab dulu ya pertanyaan - pertanyaan berikut. Oh ya, kita ngobrolnya pakai Bahasa Indonesia ya."}',
+    '{"category": "Opening",			"text": "Selamat datang di tempat konsultasi pekerjaan TanyaJob. Buat kamu yang membutuhkan rekomendasi pekerjaan, kami siap membantu. Jawablah pertanyaan di bawah dengan jujur agar kami bisa kasih kamu pekerjaan yang cocok ya! Oh ya, kita ngobrolnya pakai Bahasa Indonesia ya."}',
     '{"category": "Age",			"text": "Berapa umur kamu?"}',
     '{"category": "Age",			"text": "Berapa umur kamu sekarang?"}',
     '{"category": "Age",			"text": "Sekarang berapa umur kamu?"}',
