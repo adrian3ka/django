@@ -173,6 +173,8 @@ class LevenshteinExtraction:
                     if word == ('').join(acronym):
                         typo_correction = True
                         suggested_word.append(s)
+            if len(suggested_word) == 1:
+                extracted_data = suggested_word[0]
 
 
         if category == self.MASTER_SALARY_UPPER_CATEGORY or category == self.MASTER_SALARY_LOWER_CATEGORY:
