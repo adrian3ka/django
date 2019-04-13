@@ -48,8 +48,8 @@ class LevenshteinExtraction:
     SPECIAL_MAPS = {
         "s1": "Sarjana (s1)",
         "sarjana": "Sarjana (s1)",
-        "s2": "Master (s2)",
-        "Master": "Master (s2)",
+        "s2": "Magister (s2)",
+        "Master": "Magister (s2)",
         "s3": "Doktor (s3)",
         "Doktor": "Doktor (s3)",
         "sekolah menengah atas": "sma",
@@ -171,7 +171,10 @@ class LevenshteinExtraction:
                     if len(word) < 2:
                         continue
                     if word == ('').join(acronym):
+                        typo_correction = True
                         suggested_word.append(s)
+            if len(suggested_word) == 1:
+                extracted_data = suggested_word[0]
 
 
         if category == self.MASTER_SALARY_UPPER_CATEGORY or category == self.MASTER_SALARY_LOWER_CATEGORY:
