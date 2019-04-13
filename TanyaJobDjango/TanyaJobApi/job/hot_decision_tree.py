@@ -77,6 +77,8 @@ class HotJobRecommendationDecisionTree:
         if input_data["job_level"] not in list(self.labelJobLevels.classes_) and input_data["job_level"] is not None:
             input_data["job_level"] = 'Tidak disebutkan'
             #return ["Job Level in Recommendation List"]
+        if input_data["work_exp"] is None:
+            input_data["work_exp"] = 0
 
         hot_data = np.array([self.labelDegrees.transform([input_data["degree"]])[0],
             self.labelMajors.transform([input_data["major"]])[0],
