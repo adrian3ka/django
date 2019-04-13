@@ -171,6 +171,7 @@ class LevenshteinExtraction:
                     if len(word) < 2:
                         continue
                     if word == ('').join(acronym):
+                        typo_correction = True
                         suggested_word.append(s)
 
 
