@@ -48,8 +48,8 @@ class LevenshteinExtraction:
     SPECIAL_MAPS = {
         "s1": "Sarjana (s1)",
         "sarjana": "Sarjana (s1)",
-        "s2": "Master (s2)",
-        "Master": "Master (s2)",
+        "s2": "Magister (s2)",
+        "Master": "Magister (s2)",
         "s3": "Doktor (s3)",
         "Doktor": "Doktor (s3)",
         "sekolah menengah atas": "sma",
