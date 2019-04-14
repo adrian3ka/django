@@ -8,6 +8,7 @@ from .decision_tree import JobRecommendationDecisionTree
 from .hot_decision_tree import HotJobRecommendationDecisionTree
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+from django.core import serializers
 import json
 
 model = JobRecommendationDecisionTree()
@@ -27,3 +28,12 @@ def GetJobRecommendation(request):
     body = json.loads(body_unicode)
     data = hotModel.decide(body)
     return Response({"job_title": data})
+
+@api_view(['GET'])
+def GetJob(request):
+    limit = request.GET.get("limit")
+    title = request.GET.get("title")
+    offset = request.GET.get("offset")
+    print title, limit, offset
+    queryset = Job.objects.filter(title= title).order_by('id')[offset:limit].values()
+    return Response(queryset)

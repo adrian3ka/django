@@ -18,6 +18,12 @@ class Job(models.Model):
     work_exp = models.FloatField(default=0, blank=True)
     min_salary = models.BigIntegerField(default=0, blank=True)
     max_salary = models.BigIntegerField(default=0, blank=True)
+    link = models.CharField(max_length=255, blank=True, default='')
+
+    class Meta:
+        indexes = [
+            models.Index(fields=['title']),
+        ]
 
     def __str__(self):
         return self.title
