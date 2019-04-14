@@ -23,6 +23,9 @@ class Job(models.Model):
     class Meta:
         indexes = [
             models.Index(fields=['title']),
+            models.Index(fields=['id', 'title']),
+            models.Index(fields=['link']),
+            models.Index(fields=['link', 'title']),
         ]
 
     def __str__(self):
