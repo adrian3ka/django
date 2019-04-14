@@ -68,14 +68,14 @@ class HotJobRecommendationDecisionTree:
         if input_data["major"] not in list(self.labelMajors.classes_):
             input_data["major"] = 'Tidak disebutkan'
             #return ["Major Not in Recommendation List"]
-        if input_data["industry"] not in list(self.labelIndustries.classes_) and input_data["industry"] is not None:
+        if input_data["industry"] not in list(self.labelIndustries.classes_) or input_data["industry"] is not None:
             input_data["industry"] = 'Tidak disebutkan'
             #return ["Industry Not in Recommendation List"]
-        if input_data["field"] not in list(self.labelFields.classes_) and input_data["field"] is not None:
+        if input_data["field"] not in list(self.labelFields.classes_) or input_data["field"] is not None:
             input_data["field"] = 'Tidak disebutkan'
             #return ["Field Not in Recommendation List"]
-        if input_data["job_level"] not in list(self.labelJobLevels.classes_) and input_data["job_level"] is not None:
-            input_data["job_level"] = 'Tidak disebutkan'
+        if input_data["job_level"] not in list(self.labelJobLevels.classes_) or input_data["job_level"] is not None:
+            input_data["job_level"] = 'Staff'
             #return ["Job Level in Recommendation List"]
         if input_data["work_exp"] is None:
             input_data["work_exp"] = 0
