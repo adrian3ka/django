@@ -29,8 +29,25 @@ class JobViewSet(viewsets.ModelViewSet):
 def GetJobRecommendation(request):
     body_unicode = request.body.decode('utf-8')
     body = json.loads(body_unicode)
-    data = hotModel.decide(body)
-    return Response({"job_title": data})
+    title = hotModel.decide(body)
+
+    limit = body["limit"]
+    offset = body["offset"]
+
+    cursor = connection.cursor()
+
+    data = []
+
+    print title[0]
+    # Data retrieval operation - no commit required
+    cursor.execute("SELECT title, link FROM job_job WHERE title LIKE '" + title[0] + "' GROUP BY link LIMIT " + str(limit) + " OFFSET " + str(offset))
+    records = cursor.fetchall()
+
+    for row in records:
+        data.append({"title": row[0], "link": row[1]})
+    cursor.close()
+
+    return Response({"job_title": title, "data": data})
 
 @api_view(['GET'])
 def GetJob(request):
