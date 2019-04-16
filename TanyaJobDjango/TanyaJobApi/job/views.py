@@ -9,7 +9,10 @@ from .hot_decision_tree import HotJobRecommendationDecisionTree
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from django.core import serializers
+from django.db import connection, transaction
 import json
+from django.db import connection, transaction
+import MySQLdb
 
 model = JobRecommendationDecisionTree()
 hotModel = HotJobRecommendationDecisionTree()
@@ -34,6 +37,18 @@ def GetJob(request):
     limit = request.GET.get("limit")
     title = request.GET.get("title")
     offset = request.GET.get("offset")
-    print title, limit, offset
-    queryset = Job.objects.filter(title= title).order_by('id')[offset:limit].values()
-    return Response(queryset)
+    cursor = connection.cursor()
+
+    data = []
+    # Data retrieval operation - no commit required
+    cursor.execute("SELECT title, link FROM job_job WHERE title LIKE '" + title + "' GROUP BY link LIMIT " + limit + " OFFSET " + offset)
+    records = cursor.fetchall()
+
+    for row in records:
+        print row[0]
+        print row[1]
+        data.append({"title": row[0], "link": row[1]})
+    cursor.close()
+
+
+    return Response({"code": 200, "data": data})
