@@ -45,8 +45,6 @@ def GetJob(request):
     records = cursor.fetchall()
 
     for row in records:
-        print row[0]
-        print row[1]
         data.append({"title": row[0], "link": row[1]})
     cursor.close()
 

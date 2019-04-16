@@ -1,11 +1,18 @@
 import nltk.tag
 from nltk.tokenize import sent_tokenize, word_tokenize
-
+from sklearn.externals import joblib
+import os.path
 
 class TextTagger:
+    TRAINED_TAGGER_FILE = 'trained_tagger.pkl'
     trigram_tagger = nltk.tag.sequential.TrigramTagger
 
     def __init__(self, fileName):
+        dirpath = os.getcwd()
+        if os.path.exists(dirpath + '/' + self.TRAINED_TAGGER_FILE):
+            print "Learning from >> ", dirpath + '/' + self.TRAINED_TAGGER_FILE
+            self.trigram_tagger = joblib.load(dirpath + '/' + self.TRAINED_TAGGER_FILE)
+            return
         patterns = ""
         sent_tagged = []
         patterns = [
@@ -49,6 +56,7 @@ class TextTagger:
             sent_tagged, backoff=unigram_tagger)
         self.trigram_tagger = nltk.TrigramTagger(
             sent_tagged, backoff=bigram_tagger)
+        joblib.dump(self.trigram_tagger, self.TRAINED_TAGGER_FILE)
 
     def getTagger(self, text):
         word_tokenize_list = text.split(' ')
