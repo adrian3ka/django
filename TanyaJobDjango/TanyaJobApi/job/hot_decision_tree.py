@@ -45,7 +45,7 @@ class HotJobRecommendationDecisionTree:
     hotEncoder = sklearn.preprocessing.OneHotEncoder(handle_unknown='ignore')
 
     def train_model(self, max=999999):
-        self.clf = RandomForestClassifier(max_depth=max, n_estimators=5)
+        self.clf = RandomForestClassifier(max_depth=max, n_estimators=10)
         self.clf = self.clf.fit(self.collection.data, self.collection.target)
         return self.clf
 

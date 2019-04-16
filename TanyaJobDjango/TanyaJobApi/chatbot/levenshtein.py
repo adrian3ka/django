@@ -52,6 +52,8 @@ class LevenshteinExtraction:
         "Master": "Magister (s2)",
         "s3": "Doktor (s3)",
         "Doktor": "Doktor (s3)",
+        "d3": "Diploma (D3)",
+	"diploma": "Diploma (D3)",
         "sekolah menengah atas": "sma",
         "sekolah menengah keatas": "sma",
         "sekolah menengah kejuruan": "smk",
