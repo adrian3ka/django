@@ -45,9 +45,16 @@ def GetJobRecommendation(request):
 
     for row in records:
         data.append({"title": row[0], "link": row[1]})
+    
+
+    cursor.execute("SELECT COUNT(*) FROM (SELECT COUNT(*) FROM job_job WHERE title LIKE '" + title[0] + "' GROUP BY link) x")
+    records = cursor.fetchone()
+
+    count = records[0]
+
     cursor.close()
 
-    return Response({"job_title": title, "data": data})
+    return Response({"job_title": title, "data": data, "total": count})
 
 @api_view(['GET'])
 def GetJob(request):
