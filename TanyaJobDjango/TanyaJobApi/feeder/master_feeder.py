@@ -1,6 +1,7 @@
 import requests
 import json
 import MySQLdb
+import re
 
 headers = {
     'Content-Type': "application/json",
@@ -17,13 +18,13 @@ db = MySQLdb.connect(
     db=config["tanyajob_db"]["db"])
 
 master_list = [
-    "degrees", "facilities", "fields", "industries", "job_levels", "locations",
-    "majors", "skill_sets"
+    "degrees", "fields", "industries", "job_levels", "locations",
+    "majors"
 ]
 
 for mstr in master_list:
     cur = db.cursor(MySQLdb.cursors.DictCursor)
-    cur.execute("SELECT name FROM master_" + mstr)
+    cur.execute("SELECT name FROM tanyajob.master_" + mstr + " WHERE name NOT IN (SELECT name FROM tanyajob_chat.chatbot_master" + re.sub(r'[^a-zA-Z]', "", mstr) + " )")
     print "-----------------" + mstr + "-----------------"
     url = config["base_host"] + "/api/master_" + mstr + "/"
     for row in cur.fetchall():
