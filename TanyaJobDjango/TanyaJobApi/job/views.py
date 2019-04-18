@@ -38,16 +38,20 @@ def GetJobRecommendation(request):
 
     data = []
 
-    print title[0]
+    generated_title = []
+    for t in title:
+        generated_title.append("'" + t + "'")
+
+    generated_title = (', ').join(generated_title)
+    print generated_title
     # Data retrieval operation - no commit required
-    cursor.execute("SELECT title, link FROM job_job WHERE title LIKE '" + title[0] + "' GROUP BY link LIMIT " + str(limit) + " OFFSET " + str(offset))
+    cursor.execute("SELECT title, link FROM job_job WHERE title IN (" + generated_title + ") GROUP BY link ORDER BY FIELD(title," + generated_title + ") LIMIT " + str(limit) + " OFFSET " + str(offset))
     records = cursor.fetchall()
 
     for row in records:
         data.append({"title": row[0], "link": row[1]})
-    
 
-    cursor.execute("SELECT COUNT(*) FROM (SELECT COUNT(*) FROM job_job WHERE title LIKE '" + title[0] + "' GROUP BY link) x")
+    cursor.execute("SELECT COUNT(*) FROM (SELECT COUNT(*) FROM job_job WHERE title IN (" + generated_title + ") GROUP BY link) x")
     records = cursor.fetchone()
 
     count = records[0]

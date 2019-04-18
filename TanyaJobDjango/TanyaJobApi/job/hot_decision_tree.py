@@ -33,6 +33,10 @@ class HotJobRecommendationDecisionTree:
     collection = sklearn.datasets.base.Bunch()
     clf = tree.DecisionTreeClassifier()
 
+    MINIMUM_AGREED_TREE = 2
+    TREE_COUNT = 40
+    THRESHOLD = float(MINIMUM_AGREED_TREE) / float(TREE_COUNT)
+
     jobDatas = []  # other from title
     targetDatas = []  # title
     # Label Encoder
@@ -45,7 +49,7 @@ class HotJobRecommendationDecisionTree:
     hotEncoder = sklearn.preprocessing.OneHotEncoder(handle_unknown='ignore')
 
     def train_model(self, max=999999):
-        self.clf = RandomForestClassifier(max_depth=max, n_estimators=10)
+        self.clf = RandomForestClassifier(max_depth=max, n_estimators=self.TREE_COUNT)
         self.clf = self.clf.fit(self.collection.data, self.collection.target)
         return self.clf
 
@@ -99,8 +103,25 @@ class HotJobRecommendationDecisionTree:
         list_value_input.extend(hot_encoded_data.toarray()[0])
 
         value_input = np.array(list_value_input)
-        return self.decision_tree_classifier.predict(
+        temp = self.decision_tree_classifier.predict_proba(
             value_input.reshape(1, -1))
+        vote_result = temp[0]
+        recommended_job = []
+        for i in range(len(vote_result)):
+            if vote_result[i] > 0:
+                print vote_result[i], self.THRESHOLD, " > ", self.decision_tree_classifier.classes_[i]
+            if vote_result[i] >= self.THRESHOLD:
+                recommended_job.append({
+                    "title" : self.decision_tree_classifier.classes_[i],
+                    "score" : vote_result[i],
+                })
+        print recommended_job
+        ordered_job = sorted(recommended_job, key=lambda k: k['score'], reverse=True)
+        print ordered_job 
+        extracted_title = []
+        for o in ordered_job:
+            extracted_title.append(o["title"])
+        return extracted_title
 
     def __init__(self):
         print "Hot JobRecommendationDecisionTree Created"
