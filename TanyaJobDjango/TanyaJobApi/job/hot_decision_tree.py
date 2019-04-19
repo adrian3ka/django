@@ -179,12 +179,12 @@ class HotJobRecommendationDecisionTree:
 
         hotEncoderData = self.hotEncoder.fit_transform(categorical_job_data)
 
-        listDegrees = None
-        listMajors = None
-        listIndustries = None
-        listFields = None
-        listLocations = None
-        listJobLevels = None
+        del listDegrees 
+        del listMajors 
+        del listIndustries
+        del listFields
+        del listLocations
+        del listJobLevels
         gc.collect()
 
         i = 0 
@@ -207,7 +207,7 @@ class HotJobRecommendationDecisionTree:
             feature_names=active_features,
             target_names=self.targetDatas)
 
-        jobs = None
+        del jobs
         gc.collect()
         print "-----------------------Train All Job---------------------------"
         self.decision_tree_classifier = self.train_model()
