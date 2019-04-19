@@ -33,8 +33,8 @@ class HotJobRecommendationDecisionTree:
     collection = sklearn.datasets.base.Bunch()
     clf = tree.DecisionTreeClassifier()
 
-    MINIMUM_AGREED_TREE = 2
-    TREE_COUNT = 40
+    MINIMUM_AGREED_TREE = 3
+    TREE_COUNT = 60
     THRESHOLD = float(MINIMUM_AGREED_TREE) / float(TREE_COUNT)
 
     jobDatas = []  # other from title
@@ -127,6 +127,7 @@ class HotJobRecommendationDecisionTree:
         print "Hot JobRecommendationDecisionTree Created"
 
     def generateDecisionTree(self):
+        print "-----------------------Getting All Job-------------------------"
         jobs = Job.objects.all()
         categorical_job_data = []
 
@@ -136,6 +137,7 @@ class HotJobRecommendationDecisionTree:
         listFields = []
         listLocations = []
         listJobLevels = []
+        print "-----------------------Loop All Job----------------------------"
         for job in jobs:
             listDegrees.append(job.degree)
             listMajors.append(job.major)
@@ -152,6 +154,7 @@ class HotJobRecommendationDecisionTree:
         encodedLocations = self.encodeDatas(self.labelLocations, listLocations)
         encodedJobLevels = self.encodeDatas(self.labelJobLevels, listJobLevels)
 
+        print "-----------------------Encode All Job--------------------------"
         for i in range(0, len(jobs) - 1):
             #hot model
             temp = []
@@ -166,10 +169,10 @@ class HotJobRecommendationDecisionTree:
         hotEncoderData = self.hotEncoder.fit_transform(categorical_job_data)
 
         i = 0 
+        print "--------------------Hot Encode All Job-------------------------"
         for hc in hotEncoderData:
             temp_data = [jobs[i].min_age, jobs[i].max_age, jobs[i].work_exp, jobs[i].min_salary, jobs[i].max_salary]
             temp_data.extend(hc.toarray()[0])
-            print jobs[i].title
             temp_target = str(jobs[i].title.encode('utf-8'))
 
             self.jobDatas.append(temp_data)
@@ -184,4 +187,12 @@ class HotJobRecommendationDecisionTree:
             feature_names=active_features,
             target_names=self.targetDatas)
 
+        print "-----------------------Train All Job---------------------------"
         self.decision_tree_classifier = self.train_model()
+        jobs = None
+        listDegrees = None
+        listMajors = None
+        listIndustries = None
+        listFields = None
+        listLocations = None
+        listJobLevels = None
