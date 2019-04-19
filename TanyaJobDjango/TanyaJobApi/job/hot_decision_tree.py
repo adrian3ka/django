@@ -8,6 +8,7 @@ from sklearn import tree
 from sklearn import preprocessing
 from sklearn.ensemble import RandomForestClassifier
 from IPython.display import Image, display
+import gc
 import MySQLdb
 
 CATEGORICAL_VALUE = ["major", "degree", "industry", "field", "location", "job_level"]
@@ -34,7 +35,7 @@ class HotJobRecommendationDecisionTree:
     clf = tree.DecisionTreeClassifier()
 
     MINIMUM_AGREED_TREE = 3
-    TREE_COUNT = 50
+    TREE_COUNT = 40
     PARALEL_ESTIMATOR = TREE_COUNT / 10
     THRESHOLD = float(MINIMUM_AGREED_TREE) / float(TREE_COUNT)
 
@@ -50,7 +51,7 @@ class HotJobRecommendationDecisionTree:
     hotEncoder = sklearn.preprocessing.OneHotEncoder(handle_unknown='ignore')
 
     def train_model(self, max=999999):
-        self.clf = RandomForestClassifier(max_depth=max, n_estimators=self.TREE_COUNT, n_jobs = self.PARALEL_ESTIMATOR, criterion="entropy", bootstrap=False)
+        self.clf = RandomForestClassifier(max_depth=max, n_estimators=self.TREE_COUNT, n_jobs = self.PARALEL_ESTIMATOR, criterion="gini", bootstrap=False)
         self.clf = self.clf.fit(self.collection.data, self.collection.target)
         return self.clf
 
@@ -124,6 +125,12 @@ class HotJobRecommendationDecisionTree:
         extracted_title = []
         for o in ordered_job:
             extracted_title.append(o["title"])
+
+        if len(extracted_title) == 0:
+            extracted_title = self.decision_tree_classifier.predict(
+            value_input.reshape(1, -1))
+
+        gc.collect()
         return extracted_title
 
     def __init__(self):
@@ -141,13 +148,14 @@ class HotJobRecommendationDecisionTree:
         listLocations = []
         listJobLevels = []
         print "-----------------------Loop All Job----------------------------"
-        for job in jobs:
-            listDegrees.append(job.degree)
-            listMajors.append(job.major)
-            listIndustries.append(job.industry)
-            listFields.append(job.field)
-            listLocations.append(job.location)
-            listJobLevels.append(job.job_level)
+        for i in range(0, len(jobs) - 1):
+            listDegrees.append(jobs[i].degree)
+            listMajors.append(jobs[i].major)
+            listIndustries.append(jobs[i].industry)
+            listFields.append(jobs[i].field)
+            listLocations.append(jobs[i].location)
+            listJobLevels.append(jobs[i].job_level)
+        gc.collect()
 
         encodedDegrees = self.encodeDatas(self.labelDegrees, listDegrees)
         encodedMajors = self.encodeDatas(self.labelMajors, listMajors)
@@ -171,6 +179,14 @@ class HotJobRecommendationDecisionTree:
 
         hotEncoderData = self.hotEncoder.fit_transform(categorical_job_data)
 
+        listDegrees = None
+        listMajors = None
+        listIndustries = None
+        listFields = None
+        listLocations = None
+        listJobLevels = None
+        gc.collect()
+
         i = 0 
         print "--------------------Hot Encode All Job-------------------------"
         for hc in hotEncoderData:
@@ -181,6 +197,7 @@ class HotJobRecommendationDecisionTree:
             self.jobDatas.append(temp_data)
             self.targetDatas.append(temp_target)
             i += 1
+        gc.collect()
         active_features = ["Min Age", "Max Age","Work Exp", "Min Salary", "Max Salary"]
         active_features.extend(self.hotEncoder.active_features_)
 
@@ -190,12 +207,7 @@ class HotJobRecommendationDecisionTree:
             feature_names=active_features,
             target_names=self.targetDatas)
 
+        jobs = None
+        gc.collect()
         print "-----------------------Train All Job---------------------------"
         self.decision_tree_classifier = self.train_model()
-        jobs = None
-        listDegrees = None
-        listMajors = None
-        listIndustries = None
-        listFields = None
-        listLocations = None
-        listJobLevels = None
