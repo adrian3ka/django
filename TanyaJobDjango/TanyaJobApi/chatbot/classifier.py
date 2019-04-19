@@ -49,15 +49,37 @@ class FreshGraduateClassifier:
             './chatbot/CustomCorpusChatbot/FreshGraduate',
             categories=categories)
         self.target = data_train.target_names
+
+        print data_train.data
+
+
         x_train_tf = self.count_vect.fit_transform(data_train.data)
 
+
+        print ("Print Vocabulary > " + str(self.count_vect.vocabulary_))
+
+        for i in range(len(data_train.data)):
+            print "Dokumen ke-",i
+            print data_train.data[i].split('\n')
+
+        for x in x_train_tf[7]:
+            print x
+
         x_train_tfidf = self.tfidf_transformer.fit_transform(x_train_tf)
+
+        for x in x_train_tfidf[7]:
+            print x
+
+        print x_train_tf
+        print x_train_tfidf
 
         self.classifier.fit(x_train_tfidf, data_train.target)
 
     def predict(self, text):
         text_counts = self.count_vect.transform(text)
+        print text_counts
         text_tfidf = self.tfidf_transformer.transform(text_counts)
+        print text_tfidf
         predicted = self.classifier.predict(text_tfidf)
         categories = []
         for x in predicted:
