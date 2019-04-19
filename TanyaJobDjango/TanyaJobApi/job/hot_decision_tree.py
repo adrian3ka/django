@@ -34,7 +34,8 @@ class HotJobRecommendationDecisionTree:
     clf = tree.DecisionTreeClassifier()
 
     MINIMUM_AGREED_TREE = 3
-    TREE_COUNT = 60
+    TREE_COUNT = 50
+    PARALEL_ESTIMATOR = TREE_COUNT / 10
     THRESHOLD = float(MINIMUM_AGREED_TREE) / float(TREE_COUNT)
 
     jobDatas = []  # other from title
@@ -49,7 +50,7 @@ class HotJobRecommendationDecisionTree:
     hotEncoder = sklearn.preprocessing.OneHotEncoder(handle_unknown='ignore')
 
     def train_model(self, max=999999):
-        self.clf = RandomForestClassifier(max_depth=max, n_estimators=self.TREE_COUNT)
+        self.clf = RandomForestClassifier(max_depth=max, n_estimators=self.TREE_COUNT, n_jobs = self.PARALEL_ESTIMATOR, criterion="entropy", bootstrap=False)
         self.clf = self.clf.fit(self.collection.data, self.collection.target)
         return self.clf
 
@@ -72,17 +73,19 @@ class HotJobRecommendationDecisionTree:
         if input_data["major"] not in list(self.labelMajors.classes_):
             input_data["major"] = 'Tidak disebutkan'
             #return ["Major Not in Recommendation List"]
-        if input_data["industry"] not in list(self.labelIndustries.classes_) or input_data["industry"] is not None:
+        if input_data["industry"] not in list(self.labelIndustries.classes_) or input_data["industry"] is None:
             input_data["industry"] = 'Tidak disebutkan'
             #return ["Industry Not in Recommendation List"]
-        if input_data["field"] not in list(self.labelFields.classes_) or input_data["field"] is not None:
+        if input_data["field"] not in list(self.labelFields.classes_) or input_data["field"] is None:
             input_data["field"] = 'Tidak disebutkan'
             #return ["Field Not in Recommendation List"]
-        if input_data["job_level"] not in list(self.labelJobLevels.classes_) or input_data["job_level"] is not None:
+        if input_data["job_level"] not in list(self.labelJobLevels.classes_) or input_data["job_level"] is None:
             input_data["job_level"] = 'Staff'
             #return ["Job Level in Recommendation List"]
         if input_data["work_exp"] is None:
             input_data["work_exp"] = 0
+
+        print input_data
 
         hot_data = np.array([self.labelDegrees.transform([input_data["degree"]])[0],
             self.labelMajors.transform([input_data["major"]])[0],
