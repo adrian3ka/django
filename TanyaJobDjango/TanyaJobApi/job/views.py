@@ -51,10 +51,7 @@ def GetJobRecommendation(request):
     returned_title = []
     over = False
     for row in records:
-        if len(returned_title) <= LIMIT_JOB_TITLE:
-            returned_title.append(row[0].lower())
-        else:
-            over = True
+        returned_title.append(row[0].lower().strip())
         data.append({"title": row[0], "link": row[1]})
 
     cursor.execute("SELECT COUNT(*) FROM (SELECT COUNT(*) FROM job_job WHERE title IN (" + generated_title + ") GROUP BY link) x")
@@ -67,9 +64,11 @@ def GetJobRecommendation(request):
     returned_title = set(returned_title)
     returned_title_final = [] 
     for t in returned_title:
-        returned_title_final.append(t.title())
-    if over:
-        returned_title_final.append("dan lainnya")
+        if len(returned_title_final) < LIMIT_JOB_TITLE:
+            returned_title_final.append(t.title())
+        else:
+            returned_title_final.append("dan lainnya")
+            break
     return Response({"job_title": returned_title_final, "data": data, "total": count})
 
 @api_view(['GET'])

@@ -211,3 +211,6 @@ class HotJobRecommendationDecisionTree:
         gc.collect()
         print "-----------------------Train All Job---------------------------"
         self.decision_tree_classifier = self.train_model()
+        self.jobDatas = None
+        self.targetDatas = None
+        gc.collect()
