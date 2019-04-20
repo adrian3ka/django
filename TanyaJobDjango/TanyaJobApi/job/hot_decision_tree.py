@@ -35,7 +35,7 @@ class HotJobRecommendationDecisionTree:
     clf = tree.DecisionTreeClassifier()
 
     MINIMUM_AGREED_TREE = 3
-    TREE_COUNT = 50
+    TREE_COUNT = 45
     PARALEL_ESTIMATOR = TREE_COUNT / 10
     THRESHOLD = float(MINIMUM_AGREED_TREE) / float(TREE_COUNT)
 
