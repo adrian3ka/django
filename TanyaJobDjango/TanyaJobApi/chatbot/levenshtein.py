@@ -170,6 +170,9 @@ class LevenshteinExtraction:
                 if len(acronym) < 2:
                     continue
                 for word in text.split():
+                    for t in temp:
+                        if t in word:
+                            suggested_word.append(s)
                     if len(word) < 2:
                         continue
                     if word == ('').join(acronym):

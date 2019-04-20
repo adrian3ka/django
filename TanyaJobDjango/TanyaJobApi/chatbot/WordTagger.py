@@ -23,6 +23,7 @@ class TextTagger:
             (r'di.+(kan|i)$', 'VB'),
             #(r'per.+(kan|i|.)$', 'VB'),
             (r'ber.+(kan|an|.)$', 'VB'),
+            (r'(bidang)$', 'VB'),
             (r'ter.+(kan|i|.)$', 'VB'),
             (r'(meng|me|mem|men).+(kan|i)$', 'VB'),
             (r'ke.+(i|an)$', 'VB'),

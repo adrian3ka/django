@@ -143,13 +143,15 @@ def ExtractInformationV2(request):
                 "category": False
             })
 
-        result = tagger.getTagger(body['text'])
+        result = tagger.getTagger(body['text'].lower())
         print result
         extracted = ""
         for idx, val in enumerate(result):
             if ('IN' in val[1]):
                 continue
             elif ('PRP' in val[1]):
+                continue
+            elif ('NNC' in val[1]):
                 continue
             elif ('CDP' in val[1]):
                 extracted += val[0] + ' '
