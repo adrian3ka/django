@@ -36,6 +36,7 @@ class HotJobRecommendationDecisionTree:
 
     MINIMUM_AGREED_TREE = 3
     TREE_COUNT = 45
+    MAX_DEPTH = 700
     PARALEL_ESTIMATOR = TREE_COUNT / 10
     THRESHOLD = float(MINIMUM_AGREED_TREE) / float(TREE_COUNT)
 
@@ -51,7 +52,7 @@ class HotJobRecommendationDecisionTree:
     hotEncoder = sklearn.preprocessing.OneHotEncoder(handle_unknown='ignore')
 
     def train_model(self, max=999999):
-        self.clf = RandomForestClassifier(max_depth=max, n_estimators=self.TREE_COUNT, n_jobs = self.PARALEL_ESTIMATOR, criterion="gini", bootstrap=False)
+        self.clf = RandomForestClassifier(max_depth=max, n_estimators=self.TREE_COUNT, n_jobs = self.PARALEL_ESTIMATOR, criterion="gini", bootstrap=False, verbose=10)
         self.clf = self.clf.fit(self.collection.data, self.collection.target)
         return self.clf
 
@@ -86,7 +87,7 @@ class HotJobRecommendationDecisionTree:
         if input_data["work_exp"] is None:
             input_data["work_exp"] = 0
 
-        print input_data
+        #print input_data
 
         hot_data = np.array([self.labelDegrees.transform([input_data["degree"]])[0],
             self.labelMajors.transform([input_data["major"]])[0],
@@ -112,16 +113,16 @@ class HotJobRecommendationDecisionTree:
         vote_result = temp[0]
         recommended_job = []
         for i in range(len(vote_result)):
-            if vote_result[i] > 0:
-                print vote_result[i], self.THRESHOLD, " > ", self.decision_tree_classifier.classes_[i]
+            #if vote_result[i] > 0:
+                #print vote_result[i], self.THRESHOLD, " > ", self.decision_tree_classifier.classes_[i]
             if vote_result[i] >= self.THRESHOLD:
                 recommended_job.append({
                     "title" : self.decision_tree_classifier.classes_[i],
                     "score" : vote_result[i],
                 })
-        print recommended_job
+        #print recommended_job
         ordered_job = sorted(recommended_job, key=lambda k: k['score'], reverse=True)
-        print ordered_job 
+        #print ordered_job 
         extracted_title = []
         for o in ordered_job:
             extracted_title.append(o["title"])
@@ -210,7 +211,9 @@ class HotJobRecommendationDecisionTree:
         del jobs
         gc.collect()
         print "-----------------------Train All Job---------------------------"
-        self.decision_tree_classifier = self.train_model()
+        self.decision_tree_classifier = self.train_model(self.MAX_DEPTH)
         self.jobDatas = None
         self.targetDatas = None
         gc.collect()
+        #for tree in self.decision_tree_classifier.estimators_:
+            #print "Depth ", tree.tree_.max_depth
