@@ -42,7 +42,7 @@ class JobRecommendationDecisionTree:
     labelJobLevels = sklearn.preprocessing.LabelEncoder()
 
     def train_model(self, max=999999):
-        self.clf = RandomForestClassifier(max_depth=max, n_estimators=1000)
+        self.clf = RandomForestClassifier(max_depth=max, n_estimators=10)
         self.clf = self.clf.fit(self.collection.data, self.collection.target)
         return self.clf
 
