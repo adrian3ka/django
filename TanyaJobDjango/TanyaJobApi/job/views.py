@@ -16,7 +16,7 @@ import MySQLdb
 
 model = JobRecommendationDecisionTree()
 hotModel = HotJobRecommendationDecisionTree()
-
+LIMIT_JOB_TITLE = 5
 
 # Create your views here.
 class JobViewSet(viewsets.ModelViewSet):
@@ -45,10 +45,16 @@ def GetJobRecommendation(request):
     generated_title = (', ').join(generated_title)
     print generated_title
     # Data retrieval operation - no commit required
-    cursor.execute("SELECT title, link FROM job_job WHERE title IN (" + generated_title + ") GROUP BY link ORDER BY FIELD(title," + generated_title + ") LIMIT " + str(limit) + " OFFSET " + str(offset))
+    cursor.execute("SELECT original_title, link FROM job_job WHERE title IN (" + generated_title + ") GROUP BY link ORDER BY FIELD(title," + generated_title + ") LIMIT " + str(limit) + " OFFSET " + str(offset))
     records = cursor.fetchall()
 
+    returned_title = []
+    over = False
     for row in records:
+        if len(returned_title) <= LIMIT_JOB_TITLE:
+            returned_title.append(row[0].lower())
+        else:
+            over = True
         data.append({"title": row[0], "link": row[1]})
 
     cursor.execute("SELECT COUNT(*) FROM (SELECT COUNT(*) FROM job_job WHERE title IN (" + generated_title + ") GROUP BY link) x")
@@ -58,7 +64,13 @@ def GetJobRecommendation(request):
 
     cursor.close()
 
-    return Response({"job_title": title, "data": data, "total": count})
+    returned_title = set(returned_title)
+    returned_title_final = [] 
+    for t in returned_title:
+        returned_title_final.append(t.title())
+    if over:
+        returned_title_final.append("dan lainnya")
+    return Response({"job_title": returned_title_final, "data": data, "total": count})
 
 @api_view(['GET'])
 def GetJob(request):

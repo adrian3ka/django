@@ -15,15 +15,14 @@ db = MySQLdb.connect(
 
 
 cur = db.cursor()
-cur.execute("SELECT title FROM tanyajob_chat.job_job GROUP BY title;")
+cur.execute("SELECT title, original_title FROM tanyajob_chat.job_job GROUP BY title;")
 
 removed_words = ["Jakarta", "Area", "Jember","Semarang", "Jember", "Walk in Interview","Batch", "Viii","Yogyakarta","Surabaya", "Barat", "Jogja", "Tangerang", "Selatan","Pt Indosurya Finance", "PT", "Depok","Karawang", "Cibubur", "Bekasi", "Rembang", "Dki", "Alam Sutera","Bandung", "Boyolali","Cililitan","Cibinong", "Cibubur", "Citraland Mall", "Depok","Emporium Pluit Mall", "Makasar", "Samarinda", "Semarang","Pt Star Cosmos","Jawa Tengah", ",","Cilegon", "Pusat", "Di Mall Ambasador", "Di Depok Town Square","Depok Town Square", "Di Bec - Bandung","Jawa","Tengah"," - ", " , ", "Banyuwangi", "Kediri", "Tulungagung", "Trenggalek", "Dan Sekitarnya", "Tarakan","for Bod", "Interview", "Langsung","1","2","3","4","5","6","7","8","9","Bank Cimb Niaga Jabodetabek","Cimb","Jabodetabek","Cianjur","Solo","Di Pusat Grosir Cililitan","Grosir","Jatim","- ", "Penempatan", " : ",
-"Cabang", "Palembang","Balikpapan","Kota /Riau","Traveloka","Bogor","Denpasar","Bali","Bca","Bank Swasta","Palu",":","Bank Sampoerna","Makasar","Bengkulu","Purwokerto","dan "," Dan "," & ","Bogor","Di Mangga Dua Mall","Loker","Lowongan Kerja","Di Supermall Karawaci","Karawaci"," and "," And ","Delivery Sub Agen Jne Berau","Traveloka","Bengkulu","Pontianak","Sanggau","Lamongan","Bojonegoro","Kalimantan","Kalimantan Timur","Dept.Makishinko","Dept.Nitto Kohki","Dept.Tone","Div.Nitto Wil.","Bali","Bank Niaga","Pekanbaru","Patisserie","Sukabumi","Timur","Global Intrima","Pati ","Yogya","Maybank","Mataram","Papua","Pt. Trisula Prima Agung","Pt Epson Cikarang","Cikarang","Pt Epson","Kendari","Wilayah","Ciledug","Magang"]
+"Cabang", "Palembang","Balikpapan","Kota /Riau","Traveloka","Bogor","Denpasar","Bali","Bca","Bank Swasta","Palu",":","Bank Sampoerna","Makasar","Bengkulu","Purwokerto","dan "," Dan "," & ","Bogor","Di Mangga Dua Mall","Loker","Lowongan Kerja","Di Supermall Karawaci","Karawaci"," and "," And ","Delivery Sub Agen Jne Berau","Traveloka","Bengkulu","Pontianak","Sanggau","Lamongan","Bojonegoro","Kalimantan","Kalimantan Timur","Dept.Makishinko","Dept.Nitto Kohki","Dept.Tone","Div.Nitto Wil.","Bali","Bank Niaga","Pekanbaru","Patisserie","Sukabumi","Timur","Global Intrima","Pati ","Yogya","Maybank","Mataram","Papua","Pt. Trisula Prima Agung","Pt Epson Cikarang","Cikarang","Pt Epson","Kendari","Wilayah","Ciledug","Magang","Sidoarjo","makasar","di ", " marin ", " for ", " of ", " toko ", "dot ","sidoarjo"]
 
-replaced_words = [["Manager", "Manajer"],["Sr.", "Senior"], ["Jr.", "Junior"], ["Staf ", "Staff "],["Teacher","Teacher "],["Teachers", "Teacher"],["Technician","Teknisi"]]
+replaced_words = [["Manager", "Manajer"],["Sr.", "Senior"], ["Jr.", "Junior"], ["Staf ", "Staff "],["Teacher","Teacher "],["Teachers", "Teacher"],["Technician","Teknisi"],["operational","operasional"],["administration","administrasi"],["sekertaris","sekretaris"],["secretary","sekretaris"]]
 
 count = 0
-f= open("sql_update.sql","w+")
 for row in cur.fetchall():
     count += 1
     original_title = row[0]
@@ -53,10 +52,14 @@ for row in cur.fetchall():
     print original_title
     print cleaned_title
 
-    query = "UPDATE tanyajob_chat.job_job SET title = '" + cleaned_title +"' WHERE title = '" + original_title + "';"
-    f.write(query)
+    regex = re.compile('[^a-zA-Z\s]')
+    tagged_title = regex.sub('', original_title.lower()).split()
+    tagged_title = sorted(tagged_title)
+
+    tagged_title = (' | '.join(tagged_title))
+
+    query = "UPDATE tanyajob_chat.job_job SET title = '" + tagged_title +"' WHERE title = '" + original_title + "';"
     cur.execute(query)
     db.commit()
     print "-----------------------------------------"
 print count
-f.close() 

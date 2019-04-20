@@ -81,6 +81,7 @@ class FreshGraduateClassifier:
                 all_array_temp.append(temp)
 
         print sum(all_array_temp2)
+        print math.log(100)
         for i in range(len(data_train.data)):
             for x in x_train_tfidf[i]:
                 temp = x.toarray()[0]

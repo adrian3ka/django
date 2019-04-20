@@ -19,6 +19,7 @@ class Job(models.Model):
     min_salary = models.BigIntegerField(default=0, blank=True)
     max_salary = models.BigIntegerField(default=0, blank=True)
     link = models.CharField(max_length=255, blank=True, default='')
+    original_title = models.CharField(max_length=255, blank=True, default='')
 
     class Meta:
         indexes = [
@@ -26,6 +27,9 @@ class Job(models.Model):
             models.Index(fields=['id', 'title']),
             models.Index(fields=['link']),
             models.Index(fields=['link', 'title']),
+            models.Index(fields=['original_title', 'title']),
+            models.Index(fields=['original_title']),
+            models.Index(fields=['original_title','link']),
         ]
 
     def __str__(self):
