@@ -92,6 +92,7 @@ class LevenshteinExtraction:
     }
 
     def template_matching(self, category, text):
+        print text
         text = text.lower()
         if not self.master_data:
             self.fillMasterData()
@@ -124,6 +125,7 @@ class LevenshteinExtraction:
 
         candidate_extracted_data = []
         for s in selected_master_data:
+            print s, text
             if category == self.MASTER_JOB_LEVEL_CATEGORY:
                words = s.split()
                perm = permutations(words)

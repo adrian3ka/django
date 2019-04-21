@@ -10,6 +10,7 @@ from sklearn.ensemble import RandomForestClassifier
 from IPython.display import Image, display
 import gc
 import MySQLdb
+from sklearn.tree._tree import TREE_LEAF
 
 CATEGORICAL_VALUE = ["major", "degree", "industry", "field", "location", "job_level"]
 CONTINUOUS_VALUE = ["max_age", "min_age", "max_salary", "work_exp", "min_salary"]
@@ -35,7 +36,7 @@ class HotJobRecommendationDecisionTree:
     clf = tree.DecisionTreeClassifier()
 
     MINIMUM_AGREED_TREE = 3
-    TREE_COUNT = 45
+    TREE_COUNT = 47
     MAX_DEPTH = 700
     PARALEL_ESTIMATOR = 2
     THRESHOLD = float(MINIMUM_AGREED_TREE) / float(TREE_COUNT)
@@ -61,6 +62,18 @@ class HotJobRecommendationDecisionTree:
         encoder.fit(datas)
         encodedData = encoder.transform(datas)
         return encodedData
+
+    def cost_complexity_prune(self, inner_tree, index, threshold):
+        print inner_tree.value[index].max(), threshold
+        if inner_tree.value[index].min() < threshold:
+            # turn node into a leaf by "unlinking" its children
+            inner_tree.children_left[index] = TREE_LEAF
+            inner_tree.children_right[index] = TREE_LEAF
+        # if there are shildren, visit them as well
+        if inner_tree.children_left[index] != TREE_LEAF:
+            self.cost_complexity_prune(inner_tree, inner_tree.children_left[index], threshold)
+        if inner_tree.children_right[index] != TREE_LEAF:
+            self.cost_complexity_prune(inner_tree, inner_tree.children_right[index], threshold)
 
     def decide(self, input_data):
         if self.decision_tree_classifier == None:
@@ -113,8 +126,8 @@ class HotJobRecommendationDecisionTree:
         vote_result = temp[0]
         recommended_job = []
         for i in range(len(vote_result)):
-            #if vote_result[i] > 0:
-                #print vote_result[i], self.THRESHOLD, " > ", self.decision_tree_classifier.classes_[i]
+            if vote_result[i] > 0:
+                print vote_result[i], self.THRESHOLD, " > ", self.decision_tree_classifier.classes_[i]
             if vote_result[i] >= self.THRESHOLD:
                 recommended_job.append({
                     "title" : self.decision_tree_classifier.classes_[i],
@@ -215,5 +228,9 @@ class HotJobRecommendationDecisionTree:
         self.jobDatas = None
         self.targetDatas = None
         gc.collect()
-        #for tree in self.decision_tree_classifier.estimators_:
-            #print "Depth ", tree.tree_.max_depth
+        for i in range(len(self.decision_tree_classifier.estimators_)):
+            print "Depth ", self.decision_tree_classifier.estimators_[i].tree_.node_count
+            #self.decision_tree_classifier.prune_tree()
+            #self.cost_complexity_prune(self.decision_tree_classifier.estimators_[i].tree_, 1, 10)
+            print "Depth ", self.decision_tree_classifier.estimators_[i].tree_.node_count
+            print "----------------------------------------------------------"

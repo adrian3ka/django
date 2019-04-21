@@ -2,9 +2,8 @@ import sklearn.datasets as skd
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.feature_extraction.text import TfidfTransformer
 from sklearn.naive_bayes import MultinomialNB
-import math 
-
-
+import math
+from pprint import pprint
 
 class TextClassifier:
     classifier = MultinomialNB()
@@ -63,6 +62,7 @@ class FreshGraduateClassifier:
         print data_train.target
         print len(self.count_vect.vocabulary_)
         print ("Print Vocabulary > " + str(self.count_vect.vocabulary_))
+        pprint(self.count_vect.vocabulary_)
 
         for i in range(len(data_train.data)):
             print "Dokumen ke-",i
