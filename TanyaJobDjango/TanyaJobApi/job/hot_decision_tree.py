@@ -95,6 +95,8 @@ class HotJobRecommendationDecisionTree:
             records = cursor.fetchone()
             print records[0]
             input_data["industry"] = records[0]
+            
+            cursor.close()
             #return ["Industry Not in Recommendation List"]
         if input_data["field"] not in list(self.labelFields.classes_) or input_data["field"] is None:
             cursor = connection.cursor()
@@ -102,6 +104,8 @@ class HotJobRecommendationDecisionTree:
             records = cursor.fetchone()
             print records[0]
             input_data["field"] = records[0]
+            
+            cursor.close()
             #return ["Field Not in Recommendation List"]
         if input_data["job_level"] not in list(self.labelJobLevels.classes_) or input_data["job_level"] is None:
             input_data["job_level"] = 'Staff'
