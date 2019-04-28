@@ -10,6 +10,7 @@ from sklearn.ensemble import RandomForestClassifier
 from IPython.display import Image, display
 import gc
 import MySQLdb
+from django.db import connection, transaction
 from sklearn.tree._tree import TREE_LEAF
 
 CATEGORICAL_VALUE = ["major", "degree", "industry", "field", "location", "job_level"]
@@ -36,7 +37,7 @@ class HotJobRecommendationDecisionTree:
     clf = tree.DecisionTreeClassifier()
 
     MINIMUM_AGREED_TREE = 3
-    TREE_COUNT = 47
+    TREE_COUNT = 50
     MAX_DEPTH = 700
     PARALEL_ESTIMATOR = 2
     THRESHOLD = float(MINIMUM_AGREED_TREE) / float(TREE_COUNT)
@@ -89,10 +90,18 @@ class HotJobRecommendationDecisionTree:
             input_data["major"] = 'Tidak disebutkan'
             #return ["Major Not in Recommendation List"]
         if input_data["industry"] not in list(self.labelIndustries.classes_) or input_data["industry"] is None:
-            input_data["industry"] = 'Tidak disebutkan'
+            cursor = connection.cursor()
+            cursor.execute("SELECT industry FROM tanyajob_chat.job_job WHERE major = '" + input_data["major"] + "' GROUP BY industry ORDER BY COUNT(*) DESC LIMIT 1;")
+            records = cursor.fetchone()
+            print records[0]
+            input_data["industry"] = records[0]
             #return ["Industry Not in Recommendation List"]
         if input_data["field"] not in list(self.labelFields.classes_) or input_data["field"] is None:
-            input_data["field"] = 'Tidak disebutkan'
+            cursor = connection.cursor()
+            cursor.execute("SELECT field FROM tanyajob_chat.job_job WHERE major = '" + input_data["major"] + "' GROUP BY field ORDER BY COUNT(*) DESC LIMIT 1;")
+            records = cursor.fetchone()
+            print records[0]
+            input_data["field"] = records[0]
             #return ["Field Not in Recommendation List"]
         if input_data["job_level"] not in list(self.labelJobLevels.classes_) or input_data["job_level"] is None:
             input_data["job_level"] = 'Staff'
