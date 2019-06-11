@@ -63,9 +63,10 @@ def GetJobRecommendation(request):
 
     returned_title = set(returned_title)
     returned_title_final = [] 
-    for t in returned_title:
+    for t in title:
         if len(returned_title_final) < LIMIT_JOB_TITLE:
-            returned_title_final.append(t.title())
+            x = " ".join(t.split(" | "))
+            returned_title_final.append(x.title())
         else:
             returned_title_final.append("dan lainnya")
             break

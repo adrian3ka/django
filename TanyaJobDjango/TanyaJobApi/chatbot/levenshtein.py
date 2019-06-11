@@ -4,7 +4,7 @@ from itertools import permutations
 import re, copy
 GENERAL_VALUE = "{{x}}"
 LEVENSTHEIN_MAX_DISTANCE = 2
-MIN_LETTER_FOR_LEVENSTHEIN = LEVENSTHEIN_MAX_DISTANCE + 3
+MIN_LETTER_FOR_LEVENSTHEIN = LEVENSTHEIN_MAX_DISTANCE + 2
 
 
 class LevenshteinExtraction:
@@ -92,7 +92,6 @@ class LevenshteinExtraction:
     }
 
     def template_matching(self, category, text):
-        print text
         text = text.lower()
         if not self.master_data:
             self.fillMasterData()
@@ -125,7 +124,6 @@ class LevenshteinExtraction:
 
         candidate_extracted_data = []
         for s in selected_master_data:
-            print s, text
             if category == self.MASTER_JOB_LEVEL_CATEGORY:
                words = s.split()
                perm = permutations(words)
@@ -193,6 +191,8 @@ class LevenshteinExtraction:
         return extracted_data, typo_correction, suggested_word
 
     def keyboard_distance(self, char1, char2):
+        if char1 == " " and char2 == " ":
+            return 0
         if char1 not in self.KEYBOARD_MAP or char2 not in self.KEYBOARD_MAP:
             return 99999
         kb1 = self.KEYBOARD_MAP[char1]
@@ -210,18 +210,19 @@ class LevenshteinExtraction:
             a, b = b, a
         if not a:
             return len(b)
+        if len(a) == len(b):
+            total_distance = 0
+            for i, column1 in enumerate(a):
+                total_distance += self.keyboard_distance(a[i], b[i])
+            return total_distance
+
         previous_row = range(len(b) + 1)
         for i, column1 in enumerate(a):
             current_row = [i + 1]
             for j, column2 in enumerate(b):
                 insertions = previous_row[j + 1] + 1
                 deletions = current_row[j] + 1
-                if i == j:
-                    keyboardDistance = self.keyboard_distance(column1, column2)
-                    
-                    substitutions = previous_row[j] + (keyboardDistance)
-                else:
-                    substitutions = previous_row[j] + (column1 != column2)
+                substitutions = previous_row[j] + (column1 != column2)
                 current_row.append(min(insertions, deletions, substitutions))
             previous_row = current_row
         return previous_row[-1]

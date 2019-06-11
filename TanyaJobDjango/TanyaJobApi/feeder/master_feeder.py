@@ -24,7 +24,9 @@ master_list = [
 
 for mstr in master_list:
     cur = db.cursor(MySQLdb.cursors.DictCursor)
-    cur.execute("SELECT name FROM tanyajob.master_" + mstr + " WHERE name NOT IN (SELECT name FROM tanyajob_chat.chatbot_master" + re.sub(r'[^a-zA-Z]', "", mstr) + " )")
+    query = "SELECT name FROM tanyajob.master_" + mstr + " WHERE name NOT IN (SELECT name FROM tanyajob_chat.chatbot_master" + re.sub(r'[^a-zA-Z]', "", mstr) + " )"
+    print query
+    cur.execute(query)
     print "-----------------" + mstr + "-----------------"
     url = config["base_host"] + "/api/master_" + mstr + "/"
     for row in cur.fetchall():
